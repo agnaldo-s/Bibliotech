@@ -50,6 +50,19 @@ python3.10 -m venv .venv
 ```bash
 source .venv/bin/activate
 ```
+#### Erro Linux
+Se ocorrer o erro:
+```bash
+qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "" even though it was found.
+This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+
+Available platform plugins are: wayland, wayland-egl, minimal, minimalegl, vkkhrdisplay, eglfs, vnc, xcb, offscreen, linuxfb.
+```
+Execute o comando:
+```bash
+sudo apt install libxcb-cursor0
+```
+
 ### Instalando as Dependências
 Após ativar o ambiente virtual, você pode instalar as dependências listadas no arquivo requirements.txt usando o comando pip.
 
