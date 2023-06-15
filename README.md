@@ -10,6 +10,17 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
 - PySide6
 - SQLAlchemy==1.3.10
 
+## Conversão de Arquivos .ui para Python
+Para converter um arquivo .ui gerado no Qt Designer para um arquivo Python correspondente, utilizamos o comando pyside6-uic da seguinte forma:
+```bash
+pyside6-uic arquivo-de-entrada.ui -o ui/arquivo-de-saida.py
+```
+Onde:
+
+- arquivo-de-entrada.ui é o caminho para o arquivo .ui que desejamos converter.
+- ui/arquivo-de-saida.py é o caminho e o nome do arquivo Python que será gerado.
+Esse comando realizará a conversão e criará um arquivo Python que poderá ser importado em nosso projeto para a criação da interface.
+
 ## Configurando o Ambiente Virtual (venv)
 ### Windows
 1. Abra o prompt de comando.
