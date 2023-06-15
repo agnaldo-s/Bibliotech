@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>944</width>
-    <height>816</height>
+    <height>870</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -62,7 +62,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QLabel" name="label_19">
+             <widget class="QLabel" name="img_cabecalho">
               <property name="minimumSize">
                <size>
                 <width>100</width>
@@ -82,7 +82,7 @@
                <string/>
               </property>
               <property name="pixmap">
-               <pixmap>icones/logo.png</pixmap>
+               <pixmap>../../icones/logo.png</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>
@@ -105,7 +105,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QLabel" name="label_2">
+           <widget class="QLabel" name="txt_cabecalho">
             <property name="styleSheet">
              <string notr="true">border: none;</string>
             </property>
@@ -173,21 +173,21 @@ QLabel{
 }</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
-      <widget class="QWidget" name="page">
+      <widget class="QWidget" name="pag_procurar_livro">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item>
-           <widget class="QLineEdit" name="lineEdit">
+           <widget class="QLineEdit" name="lbl_input_nome_livro">
             <property name="placeholderText">
              <string>Insira o nome do livro</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="btn_pesquisar_livro">
             <property name="minimumSize">
              <size>
               <width>25</width>
@@ -223,7 +223,7 @@ QPushButton:hover {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icones/pesquisar-livro.png</normaloff>icones/pesquisar-livro.png</iconset>
+              <normaloff>../../icones/pesquisar-livro.png</normaloff>../../icones/pesquisar-livro.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -234,7 +234,7 @@ QPushButton:hover {
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="btn_adicionar_livro">
             <property name="minimumSize">
              <size>
               <width>25</width>
@@ -270,7 +270,7 @@ QPushButton:hover {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icones/adicionar.png</normaloff>icones/adicionar.png</iconset>
+              <normaloff>../../icones/adicionar.png</normaloff>../../icones/adicionar.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -283,7 +283,7 @@ QPushButton:hover {
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableWidget">
+         <widget class="QTableWidget" name="tbl_livros">
           <property name="styleSheet">
            <string notr="true">QTableView {
     background-color: #FFFFFF;
@@ -342,19 +342,19 @@ QHeaderView::section:checked {
           </column>
           <column>
            <property name="text">
-            <string>Ano de Publicação</string>
+            <string>ISBN</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>ISBN</string>
+            <string>Ano de Publicação</string>
            </property>
           </column>
          </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_2">
+      <widget class="QWidget" name="pag_editar_livro">
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
          <widget class="QFrame" name="imagemLivro">
@@ -383,7 +383,7 @@ QHeaderView::section:checked {
             </spacer>
            </item>
            <item>
-            <widget class="QLabel" name="label_18">
+            <widget class="QLabel" name="lbl_imagem_livro_editar">
              <property name="minimumSize">
               <size>
                <width>100</width>
@@ -403,7 +403,7 @@ QHeaderView::section:checked {
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>icones/sem_foto.png</pixmap>
+              <pixmap>../../icones/sem_foto.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -432,14 +432,17 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
-              <widget class="QLabel" name="label">
+              <widget class="QLabel" name="txt_id">
                <property name="text">
                 <string>ID:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_2">
+              <widget class="QLineEdit" name="lbl_id">
+               <property name="inputMask">
+                <string/>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -463,14 +466,17 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <item>
-              <widget class="QLabel" name="label_3">
+              <widget class="QLabel" name="txt_titulo">
                <property name="text">
                 <string>Título</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_3">
+              <widget class="QLineEdit" name="lbl_titulo">
+               <property name="inputMask">
+                <string/>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -481,14 +487,14 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="QLabel" name="label_4">
+              <widget class="QLabel" name="txt_autora">
                <property name="text">
-                <string>Autor</string>
+                <string>Autor (a)</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_6">
+              <widget class="QLineEdit" name="lbl_autora">
                <property name="text">
                 <string/>
                </property>
@@ -499,14 +505,14 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
-              <widget class="QLabel" name="label_5">
+              <widget class="QLabel" name="txt_editora">
                <property name="text">
                 <string>Editora:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_7">
+              <widget class="QLineEdit" name="lbl_editora">
                <property name="text">
                 <string/>
                </property>
@@ -517,14 +523,14 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
-              <widget class="QLabel" name="label_7">
+              <widget class="QLabel" name="txt_isbn">
                <property name="text">
                 <string>ISBN:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_5">
+              <widget class="QLineEdit" name="lbl_isbn">
                <property name="inputMask">
                 <string>0-000-00000-0</string>
                </property>
@@ -541,14 +547,14 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
-              <widget class="QLabel" name="label_6">
+              <widget class="QLabel" name="txt_anoPublicacao">
                <property name="text">
                 <string>Ano de Publicação:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_4">
+              <widget class="QLineEdit" name="lbl_anoPublicacao">
                <property name="inputMask">
                 <string>0000</string>
                </property>
@@ -575,14 +581,14 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_17">
              <item>
-              <widget class="QLabel" name="label_17">
+              <widget class="QLabel" name="txt_numExemplares">
                <property name="text">
                 <string>N° de Exemplares:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_15">
+              <widget class="QLineEdit" name="lbl_numExemplares">
                <property name="text">
                 <string/>
                </property>
@@ -624,7 +630,7 @@ QHeaderView::section:checked {
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_7">
             <item>
-             <widget class="QPushButton" name="pushButton_4">
+             <widget class="QPushButton" name="btn_editar">
               <property name="minimumSize">
                <size>
                 <width>300</width>
@@ -640,7 +646,7 @@ QHeaderView::section:checked {
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_5">
+             <widget class="QPushButton" name="btn_deletar">
               <property name="cursor">
                <cursorShape>PointingHandCursor</cursorShape>
               </property>
@@ -650,7 +656,7 @@ QHeaderView::section:checked {
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_6">
+             <widget class="QPushButton" name="btn_atualizar">
               <property name="cursor">
                <cursorShape>PointingHandCursor</cursorShape>
               </property>
@@ -684,7 +690,7 @@ QHeaderView::section:checked {
          <widget class="QWidget" name="widget_3" native="true">
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <widget class="QLabel" name="label_15">
+            <widget class="QLabel" name="txt_cadastro">
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;Cadastro&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
@@ -693,14 +699,14 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_15">
              <item>
-              <widget class="QLabel" name="label_8">
+              <widget class="QLabel" name="txt_id_cad">
                <property name="text">
                 <string>ID:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_8">
+              <widget class="QLineEdit" name="lbl_id_cad">
                <property name="text">
                 <string/>
                </property>
@@ -724,14 +730,14 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_10">
              <item>
-              <widget class="QLabel" name="label_9">
+              <widget class="QLabel" name="txt_titulo_cad">
                <property name="text">
                 <string>Título</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_9">
+              <widget class="QLineEdit" name="lbl_titulo_cad">
                <property name="text">
                 <string/>
                </property>
@@ -742,14 +748,14 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_11">
              <item>
-              <widget class="QLabel" name="label_10">
+              <widget class="QLabel" name="txt_autora_cad">
                <property name="text">
                 <string>Autor</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_10">
+              <widget class="QLineEdit" name="lbl_autora_cad">
                <property name="text">
                 <string/>
                </property>
@@ -760,14 +766,14 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_12">
              <item>
-              <widget class="QLabel" name="label_11">
+              <widget class="QLabel" name="txt_editora_cad">
                <property name="text">
                 <string>Editora:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_11">
+              <widget class="QLineEdit" name="lbl_editora_cad">
                <property name="text">
                 <string/>
                </property>
@@ -778,14 +784,14 @@ QHeaderView::section:checked {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_13">
              <item>
-              <widget class="QLabel" name="label_12">
+              <widget class="QLabel" name="txt_isbn_cad">
                <property name="text">
                 <string>ISBN:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_13">
+              <widget class="QLineEdit" name="lbl_isbn_cad">
                <property name="text">
                 <string/>
                </property>
@@ -809,14 +815,14 @@ QHeaderView::section:checked {
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="label_13">
+              <widget class="QLabel" name="txt_anoPublicacao_cad">
                <property name="text">
                 <string>Ano de Publicação:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_12">
+              <widget class="QLineEdit" name="lbl_anoPublicacao_cad">
                <property name="text">
                 <string/>
                </property>
@@ -840,14 +846,14 @@ QHeaderView::section:checked {
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="label_14">
+              <widget class="QLabel" name="txt_numExemplares_cad">
                <property name="text">
                 <string>N° de Exemplares:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_14">
+              <widget class="QLineEdit" name="lbn_numExemplares_cad">
                <property name="text">
                 <string/>
                </property>
@@ -877,7 +883,7 @@ QHeaderView::section:checked {
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="label_16">
+              <widget class="QLabel" name="frame_imagemLivro">
                <property name="minimumSize">
                 <size>
                  <width>100</width>
@@ -900,7 +906,7 @@ QHeaderView::section:checked {
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap>icones/sem_foto.png</pixmap>
+                <pixmap>../../icones/sem_foto.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -940,7 +946,7 @@ QHeaderView::section:checked {
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_5">
                <item>
-                <widget class="QPushButton" name="pushButton_7">
+                <widget class="QPushButton" name="btn_addImagem_cad">
                  <property name="minimumSize">
                   <size>
                    <width>300</width>
@@ -956,7 +962,7 @@ QHeaderView::section:checked {
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_8">
+                <widget class="QPushButton" name="btn_salvar_cad">
                  <property name="cursor">
                   <cursorShape>PointingHandCursor</cursorShape>
                  </property>
