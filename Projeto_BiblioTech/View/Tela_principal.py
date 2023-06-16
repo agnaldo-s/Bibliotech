@@ -1,14 +1,15 @@
-import json
-
-import requests
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QComboBox, QWidget, QPushButton, QMessageBox, QSizePolicy, \
-    QLabel, QLineEdit, QTableWidget, QAbstractItemView, QTableWidgetItem, QTextEdit, QHeaderView
-
-from Infra.Configs.connection import DBConnectionHandler
-from Infra.Entities.Livro import Livro
-from Infra.Repository.Livro_repository import Livro_repository
+from PySide6.QtWidgets import QMainWindow
+from PySide6.QtGui import QPixmap
+from os import path
 
 
-class MainWindow(QMainWindow):
+from Projeto_BiblioTech.View.mainWindow import Ui_MainWindow
+
+pasta_base = path.abspath(path.join(path.dirname(__file__), '..'))
+
+
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
-        super().__init__()
+        super(MainWindow, self).__init__()
+        self.setupUi(self)
+        self.showMaximized()
