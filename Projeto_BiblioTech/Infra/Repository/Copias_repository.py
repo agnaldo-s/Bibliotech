@@ -1,23 +1,23 @@
 from Infra.Configs.connection import  DBConnectionHandler
-from Infra.Entities.Livro import Livro
+from Infra.Entities.Copias import Copias
 
 
-class Livro_repository:
+class Copias_repository:
 
     def select_all(self):
         with DBConnectionHandler() as db:
-            data = db.session.query(Livro).all()
+            data = db.session.query(Copias).all()
             return data
 
     def select(self, id):
         with DBConnectionHandler() as db:
-            data = db.session.query(Livro).filter(Livro.id == id).first()
+            data = db.session.query(Copias).filter(Copias.id == id).first()
             return data
 
-    def insert(self, livro: Livro):
+    def insert(self, copias: Copias):
         with DBConnectionHandler() as db:
             try:
-                db.session.add(livro)
+                db.session.add(copias)
                 db.session.commit()
                 print('commitou')
                 return 'ok'
@@ -27,11 +27,11 @@ class Livro_repository:
 
     def delete(self, id):
         with DBConnectionHandler() as db:
-            db.session.query(Livro).filter(Livro.id == id).delete()
+            db.session.query(Copias).filter(Copias.id == id).delete()
             db.session.commit()
 
-    def update(self, livro: Livro):
+    def update(self, copias: Copias):
         with DBConnectionHandler() as db:
-            db.session.query(Livro).filter(Livro.id == livro.id).update({'titulo': livro.titulo, 'editora':
-                livro.editora, 'ano_publicacao': livro.ano_publicacao,'isbn13': livro.isbn13, 'isbn10': livro.isbn10})
+            db.session.query(Copias).filter(Copias.id == copias.id).update({'qtd_copias':
+                copias.qtd_copias})
             db.session.commit()
