@@ -1,9 +1,8 @@
 from PySide6.QtWidgets import QMainWindow
-from PySide6.QtGui import QPixmap
 from os import path
 
 
-from mainWindow import Ui_MainWindow
+from projetoBiblioTech.view.mainWindow import Ui_MainWindow
 
 pasta_base = path.abspath(path.join(path.dirname(__file__), '..'))
 
