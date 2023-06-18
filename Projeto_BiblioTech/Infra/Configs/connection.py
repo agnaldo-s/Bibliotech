@@ -25,3 +25,5 @@ class DBConnectionHandler:
     def __create_tables(self):
         Base.metadata.create_all(bind=self.__engine)
         print("Tabelas criadas com sucesso")
+
+    print('testar')
