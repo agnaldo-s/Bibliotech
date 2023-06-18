@@ -10,5 +10,5 @@ pasta_base = path.abspath(path.join(path.dirname(__file__), '..'))
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
-        super().__init__()
+        super(MainWindow, self).__init__()
         self.setupUi(self)
