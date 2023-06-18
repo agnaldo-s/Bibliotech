@@ -3,7 +3,7 @@ from PySide6.QtGui import QPixmap
 from os import path
 
 
-from View.mainWindow import Ui_MainWindow
+from mainWindow import Ui_MainWindow
 
 pasta_base = path.abspath(path.join(path.dirname(__file__), '..'))
 
