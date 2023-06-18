@@ -1,5 +1,5 @@
-from Infra.Configs.connection import  DBConnectionHandler
-from Infra.Entities.Livro import Livro
+from projetoBiblioTech.infra.configs.connection import DBConnectionHandler
+from projetoBiblioTech.infra.entities.livro import Livro
 
 
 class Livro_repository:

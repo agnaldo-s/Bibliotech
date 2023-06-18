@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from Infra.Configs.Base import Base
+from projetoBiblioTech.infra.configs.base import Base
 
 
 class DBConnectionHandler:

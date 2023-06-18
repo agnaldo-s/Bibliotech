@@ -1,4 +1,4 @@
-from Infra.Configs.Base import Base
+from projetoBiblioTech.infra.configs.base import Base
 from sqlalchemy import Column, String, Integer
 
 class Livro(Base):

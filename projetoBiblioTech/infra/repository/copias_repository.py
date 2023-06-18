@@ -1,5 +1,5 @@
-from Infra.Configs.connection import  DBConnectionHandler
-from Infra.Entities.Copias import Copias
+from projetoBiblioTech.infra.configs.connection import DBConnectionHandler
+from projetoBiblioTech.infra.entities.copias import Copias
 
 
 class Copias_repository:
