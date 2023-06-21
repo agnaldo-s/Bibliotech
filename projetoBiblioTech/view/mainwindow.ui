@@ -13,6 +13,11 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">
+background-color: rgb(246, 245, 244);
+color: rgb(0, 0, 0);</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
@@ -62,7 +67,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QLabel" name="img_cabecalho">
+             <widget class="QFrame" name="frame_2">
               <property name="minimumSize">
                <size>
                 <width>100</width>
@@ -76,17 +81,30 @@
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">border: none;</string>
+               <string notr="true">border: none;
+</string>
               </property>
-              <property name="text">
-               <string/>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
               </property>
-              <property name="pixmap">
-               <pixmap>../../icones/logo.png</pixmap>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
               </property>
-              <property name="scaledContents">
-               <bool>true</bool>
-              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_11">
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap resource="../../imagens/imagens.qrc">:/icons/logo_icone.png</pixmap>
+                 </property>
+                 <property name="scaledContents">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
             <item>
@@ -107,7 +125,8 @@
           <item>
            <widget class="QLabel" name="txt_cabecalho">
             <property name="styleSheet">
-             <string notr="true">border: none;</string>
+             <string notr="true">border: none;
+color: rgb(0, 0, 0);</string>
             </property>
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:26pt; font-weight:600;&quot;&gt;BiblioTecH&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -222,8 +241,8 @@ QPushButton:hover {
              <string/>
             </property>
             <property name="icon">
-             <iconset>
-              <normaloff>../../icones/pesquisar-livro.png</normaloff>../../icones/pesquisar-livro.png</iconset>
+             <iconset resource="../../imagens/imagens.qrc">
+              <normaloff>:/icons/pesquisar-livro_icone.png</normaloff>:/icons/pesquisar-livro_icone.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -269,8 +288,8 @@ QPushButton:hover {
              <string/>
             </property>
             <property name="icon">
-             <iconset>
-              <normaloff>../../icones/adicionar.png</normaloff>../../icones/adicionar.png</iconset>
+             <iconset resource="../../imagens/imagens.qrc">
+              <normaloff>:/icons/adicionar_icone.png</normaloff>:/icons/adicionar_icone.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -403,7 +422,7 @@ QHeaderView::section:checked {
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>../../icones/sem_foto.png</pixmap>
+              <pixmap resource="../../imagens/imagens.qrc">:/icons/sem_foto_icone.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -906,7 +925,7 @@ QHeaderView::section:checked {
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap>../../icones/sem_foto.png</pixmap>
+                <pixmap resource="../../imagens/imagens.qrc">:/icons/sem_foto_icone.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -999,6 +1018,8 @@ QHeaderView::section:checked {
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../imagens/imagens.qrc"/>
+ </resources>
  <connections/>
 </ui>
