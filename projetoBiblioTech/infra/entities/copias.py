@@ -7,4 +7,3 @@ class Copias(Base):
 
     id = Column(Integer, autoincrement=True, primary_key=True)
     id_livro = Column(Integer, ForeignKey('livro.id'))
-    qtd_copias = Column(Integer(100))
