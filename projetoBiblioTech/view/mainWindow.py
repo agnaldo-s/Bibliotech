@@ -19,12 +19,16 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
     QLabel, QLineEdit, QMainWindow, QPushButton,
     QSizePolicy, QSpacerItem, QStackedWidget, QStatusBar,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+from imagens import imagens
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(944, 870)
+        MainWindow.setStyleSheet(u"\n"
+"background-color: rgb(246, 245, 244);\n"
+"color: rgb(0, 0, 0);")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
@@ -53,15 +57,25 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addItem(self.horizontalSpacer_15)
 
-        self.img_cabecalho = QLabel(self.frame)
-        self.img_cabecalho.setObjectName(u"img_cabecalho")
-        self.img_cabecalho.setMinimumSize(QSize(100, 100))
-        self.img_cabecalho.setMaximumSize(QSize(100, 100))
-        self.img_cabecalho.setStyleSheet(u"border: none;")
-        self.img_cabecalho.setPixmap(QPixmap(u"../../icones/logo.png"))
-        self.img_cabecalho.setScaledContents(True)
+        self.frame_2 = QFrame(self.frame)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setMinimumSize(QSize(100, 100))
+        self.frame_2.setMaximumSize(QSize(100, 100))
+        self.frame_2.setStyleSheet(u"border: none;\n"
+"")
+        self.frame_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_11 = QVBoxLayout(self.frame_2)
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.label = QLabel(self.frame_2)
+        self.label.setObjectName(u"label")
+        self.label.setPixmap(QPixmap(u":/icons/logo_icone.png"))
+        self.label.setScaledContents(True)
 
-        self.horizontalLayout.addWidget(self.img_cabecalho)
+        self.verticalLayout_11.addWidget(self.label)
+
+
+        self.horizontalLayout.addWidget(self.frame_2)
 
         self.horizontalSpacer_16 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -72,7 +86,8 @@ class Ui_MainWindow(object):
 
         self.txt_cabecalho = QLabel(self.frame)
         self.txt_cabecalho.setObjectName(u"txt_cabecalho")
-        self.txt_cabecalho.setStyleSheet(u"border: none;")
+        self.txt_cabecalho.setStyleSheet(u"border: none;\n"
+"color: rgb(0, 0, 0);")
 
         self.verticalLayout_9.addWidget(self.txt_cabecalho)
 
@@ -151,7 +166,7 @@ class Ui_MainWindow(object):
 "    color: #333333;\n"
 "}")
         icon = QIcon()
-        icon.addFile(u"../../icones/pesquisar-livro.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/icons/pesquisar-livro_icone.png", QSize(), QIcon.Normal, QIcon.Off)
         self.btn_pesquisar_livro.setIcon(icon)
         self.btn_pesquisar_livro.setIconSize(QSize(25, 25))
 
@@ -174,7 +189,7 @@ class Ui_MainWindow(object):
 "    color: #333333;\n"
 "}")
         icon1 = QIcon()
-        icon1.addFile(u"../../icones/adicionar.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/icons/adicionar_icone.png", QSize(), QIcon.Normal, QIcon.Off)
         self.btn_adicionar_livro.setIcon(icon1)
         self.btn_adicionar_livro.setIconSize(QSize(20, 20))
 
@@ -257,7 +272,7 @@ class Ui_MainWindow(object):
         self.lbl_imagem_livro_editar.setMinimumSize(QSize(100, 150))
         self.lbl_imagem_livro_editar.setMaximumSize(QSize(100, 150))
         self.lbl_imagem_livro_editar.setStyleSheet(u"border: 1px solid #000000;")
-        self.lbl_imagem_livro_editar.setPixmap(QPixmap(u"../../icones/sem_foto.png"))
+        self.lbl_imagem_livro_editar.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
         self.lbl_imagem_livro_editar.setScaledContents(True)
 
         self.horizontalLayout_19.addWidget(self.lbl_imagem_livro_editar)
@@ -580,7 +595,7 @@ class Ui_MainWindow(object):
         self.frame_imagemLivro.setMaximumSize(QSize(100, 150))
         self.frame_imagemLivro.setAutoFillBackground(False)
         self.frame_imagemLivro.setStyleSheet(u"border: 1px solid #000000;")
-        self.frame_imagemLivro.setPixmap(QPixmap(u"../../icones/sem_foto.png"))
+        self.frame_imagemLivro.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
         self.frame_imagemLivro.setScaledContents(True)
 
         self.horizontalLayout_16.addWidget(self.frame_imagemLivro)
@@ -645,7 +660,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.img_cabecalho.setText("")
+        self.label.setText("")
         self.txt_cabecalho.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:26pt; font-weight:600;\">BiblioTecH</span></p></body></html>", None))
         self.lbl_input_nome_livro.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Insira o nome do livro", None))
         self.btn_pesquisar_livro.setText("")

@@ -1,4 +1,6 @@
 from PySide6.QtWidgets import QMainWindow
+from PySide6.QtGui import QPixmap, QPicture
+
 from os import path
 
 

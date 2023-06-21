@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>adicionar_icone.png</file>
+    <file>editar_icone.png</file>
+    <file>icons8-soma-48_icone.png</file>
+    <file>img.icons8_icone.png</file>
+    <file>logo_icone.png</file>
+    <file>pesquisar-livro_icone.png</file>
+    <file>procurar_icone.png</file>
+    <file>sem_foto_icone.png</file>
+    <file>voltar_icone.png</file>
+  </qresource>
+</RCC>
