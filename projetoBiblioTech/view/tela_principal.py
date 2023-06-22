@@ -1,5 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QHeaderView
-from PySide6.QtGui import QPixmap, QPicture
+from PySide6.QtWidgets import QMainWindow
 
 from os import path
 
