@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
     QLabel, QLineEdit, QMainWindow, QPushButton,
     QSizePolicy, QSpacerItem, QStackedWidget, QStatusBar,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+
 from imagens import imagens
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
