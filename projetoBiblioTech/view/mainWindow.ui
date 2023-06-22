@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>852</width>
-    <height>910</height>
+    <height>911</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -69,8 +69,8 @@ color: black;</string>
              <widget class="QLabel" name="img_cabecalho">
               <property name="minimumSize">
                <size>
-                <width>100</width>
-                <height>100</height>
+                <width>0</width>
+                <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -177,7 +177,7 @@ QLabel{
 }</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="pag_procurar_livro">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -385,8 +385,8 @@ QHeaderView::section:checked {
             <widget class="QLabel" name="lbl_imagem_livro_editar">
              <property name="minimumSize">
               <size>
-               <width>100</width>
-               <height>150</height>
+               <width>0</width>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -885,8 +885,8 @@ QHeaderView::section:checked {
               <widget class="QLabel" name="frame_imagemLivro">
                <property name="minimumSize">
                 <size>
-                 <width>100</width>
-                 <height>150</height>
+                 <width>0</width>
+                 <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">

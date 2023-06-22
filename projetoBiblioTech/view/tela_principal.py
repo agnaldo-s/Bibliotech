@@ -16,6 +16,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.itemChanged.connect(self.ajusteTabela)
         self.tbl_livros.setSelectionBehavior(QTableWidget.SelectRows)
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
 
     def ajusteTabela(self):
         self.tbl_livros.resizeColumnsToContents()
@@ -81,3 +82,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             if retorno is not None:
                 self.self.stackedWidget.setCurrentIndex(1)
+
+    def tela_cadastro_livro(self):
+        self.qst_telas.setCurrentWidget(self.page_cadastroLivro)
+
+
