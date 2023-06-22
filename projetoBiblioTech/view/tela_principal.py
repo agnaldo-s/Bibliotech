@@ -1,11 +1,17 @@
+
+=======
 from PySide6.QtWidgets import QMainWindow, QTableWidget
+
 
 from os import path
 
-
+from projetoBiblioTech.infra.configs.connection import DBConnectionHandler
+from projetoBiblioTech.infra.entities.livro import Livro
+from projetoBiblioTech.infra.repository.copias_repository import Copias_repository
 from projetoBiblioTech.view.mainWindow import Ui_MainWindow
 
 pasta_base = path.abspath(path.join(path.dirname(__file__), '..'))
+from projetoBiblioTech.infra.repository.livro_repository import Livro_repository
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -19,9 +25,5 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
 
 
-    def ajusteTabela(self):
-        self.tbl_livros.resizeColumnsToContents()
-        self.tbl_livros.resizeRowsToContents()
-        for row in range(self.tbl_livros.rowCount()):
-            height = self.tbl_livros.rowHeight(row)
-            self.tbl_livros.setRowHeight(row, height + 7)
+
+

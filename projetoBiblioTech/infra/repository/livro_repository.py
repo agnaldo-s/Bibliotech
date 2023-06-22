@@ -9,6 +9,11 @@ class Livro_repository:
             data = db.session.query(Livro).all()
             return data
 
+    def findByTitulo(self, titulo):
+        with DBConnectionHandler() as db:
+            data = db.session.query(Livro).filter(Livro.titulo == titulo).first()
+            return data
+
     def select(self, id):
         with DBConnectionHandler() as db:
             data = db.session.query(Livro).filter(Livro.id == id).first()
