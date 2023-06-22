@@ -156,7 +156,9 @@ class Ui_MainWindow(object):
         self.btn_pesquisar_livro.setIcon(icon)
         self.btn_pesquisar_livro.setIconSize(QSize(25, 25))
 
-        self.horizontalLayout_8.addWidget(self.btn_pesquisar_livro)
+        ##pesquisar livro na tabela
+
+
 
         self.btn_adicionar_livro = QPushButton(self.pag_procurar_livro)
         self.btn_adicionar_livro.setObjectName(u"btn_adicionar_livro")
@@ -178,6 +180,10 @@ class Ui_MainWindow(object):
         icon1.addFile(u"../../icones/adicionar.png", QSize(), QIcon.Normal, QIcon.Off)
         self.btn_adicionar_livro.setIcon(icon1)
         self.btn_adicionar_livro.setIconSize(QSize(20, 20))
+
+        ###Primeira página: adicionando um novo livro e mudando de página:
+
+        self.btn_adicionar_livro.clicked.connect(self.cadastrar_livro)
 
         self.horizontalLayout_8.addWidget(self.btn_adicionar_livro)
 
