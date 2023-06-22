@@ -20,11 +20,13 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
     QSizePolicy, QSpacerItem, QStackedWidget, QStatusBar,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
 from imagens import imagens
+
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(794, 910)
+        MainWindow.resize(794, 852)
         MainWindow.setStyleSheet(u"background-color: rgb(246, 245, 244);\n"
 "color: black;")
         self.centralwidget = QWidget(MainWindow)
@@ -640,7 +642,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.qst_telas.setCurrentIndex(1)
+        self.qst_telas.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
