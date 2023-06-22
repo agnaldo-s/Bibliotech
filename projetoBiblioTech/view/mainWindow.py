@@ -20,12 +20,11 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
     QSizePolicy, QSpacerItem, QStackedWidget, QStatusBar,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
 from imagens import imagens
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(852, 911)
+        MainWindow.resize(794, 910)
         MainWindow.setStyleSheet(u"background-color: rgb(246, 245, 244);\n"
 "color: black;")
         self.centralwidget = QWidget(MainWindow)
@@ -93,7 +92,7 @@ class Ui_MainWindow(object):
         self.qst_telas.setObjectName(u"qst_telas")
         self.qst_telas.setStyleSheet(u"QPushButton {\n"
 "    border-radius: 10px;\n"
-"    padding: 10px;\n"
+"    padding: 5px;\n"
 "    background-color: #F8F8F8;\n"
 "    color: #333333;\n"
 "    border: 2px solid #CCCCCC;\n"
@@ -111,7 +110,7 @@ class Ui_MainWindow(object):
 "QLineEdit {\n"
 "    border: 2px solid #CCCCCC;\n"
 "    border-radius: 10px;\n"
-"    padding: 5px;\n"
+"    padding: 3px;\n"
 "    background-color: #F8F8F8;\n"
 "    color: #333333;\n"
 "}\n"
@@ -641,7 +640,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.qst_telas.setCurrentIndex(2)
+        self.qst_telas.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
