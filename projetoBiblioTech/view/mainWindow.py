@@ -19,13 +19,13 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
     QLabel, QLineEdit, QMainWindow, QPushButton,
     QSizePolicy, QSpacerItem, QStackedWidget, QStatusBar,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
-
 from imagens import imagens
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(590, 910)
+        MainWindow.resize(852, 911)
         MainWindow.setStyleSheet(u"background-color: rgb(246, 245, 244);\n"
 "color: black;")
         self.centralwidget = QWidget(MainWindow)
@@ -58,7 +58,7 @@ class Ui_MainWindow(object):
 
         self.img_cabecalho = QLabel(self.frame)
         self.img_cabecalho.setObjectName(u"img_cabecalho")
-        self.img_cabecalho.setMinimumSize(QSize(100, 100))
+        self.img_cabecalho.setMinimumSize(QSize(0, 0))
         self.img_cabecalho.setMaximumSize(QSize(100, 100))
         self.img_cabecalho.setStyleSheet(u"border: none;")
         self.img_cabecalho.setPixmap(QPixmap(u":/icons/logo_icone.png"))
@@ -201,10 +201,6 @@ class Ui_MainWindow(object):
         self.tbl_livros.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         __qtablewidgetitem5 = QTableWidgetItem()
         self.tbl_livros.setHorizontalHeaderItem(5, __qtablewidgetitem5)
-        if (self.tbl_livros.rowCount() < 1):
-            self.tbl_livros.setRowCount(1)
-        __qtablewidgetitem6 = QTableWidgetItem()
-        self.tbl_livros.setVerticalHeaderItem(0, __qtablewidgetitem6)
         self.tbl_livros.setObjectName(u"tbl_livros")
         self.tbl_livros.setStyleSheet(u"QTableView {\n"
 "    background-color: #FFFFFF;\n"
@@ -257,7 +253,7 @@ class Ui_MainWindow(object):
 
         self.lbl_imagem_livro_editar = QLabel(self.imagemLivro)
         self.lbl_imagem_livro_editar.setObjectName(u"lbl_imagem_livro_editar")
-        self.lbl_imagem_livro_editar.setMinimumSize(QSize(100, 150))
+        self.lbl_imagem_livro_editar.setMinimumSize(QSize(0, 0))
         self.lbl_imagem_livro_editar.setMaximumSize(QSize(100, 150))
         self.lbl_imagem_livro_editar.setStyleSheet(u"border: 1px solid #000000;")
         self.lbl_imagem_livro_editar.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
@@ -579,7 +575,7 @@ class Ui_MainWindow(object):
 
         self.frame_imagemLivro = QLabel(self.widget_4)
         self.frame_imagemLivro.setObjectName(u"frame_imagemLivro")
-        self.frame_imagemLivro.setMinimumSize(QSize(100, 150))
+        self.frame_imagemLivro.setMinimumSize(QSize(0, 0))
         self.frame_imagemLivro.setMaximumSize(QSize(100, 150))
         self.frame_imagemLivro.setAutoFillBackground(False)
         self.frame_imagemLivro.setStyleSheet(u"border: 1px solid #000000;")
@@ -645,7 +641,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.qst_telas.setCurrentIndex(0)
+        self.qst_telas.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -670,8 +666,6 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"ISBN", None));
         ___qtablewidgetitem5 = self.tbl_livros.horizontalHeaderItem(5)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Ano de Publica\u00e7\u00e3o", None));
-        ___qtablewidgetitem6 = self.tbl_livros.verticalHeaderItem(0)
-        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
         self.lbl_imagem_livro_editar.setText("")
         self.lbl_id.setText(QCoreApplication.translate("MainWindow", u"ID:", None))
         self.txt_id.setInputMask("")
