@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>852</width>
-    <height>911</height>
+    <width>794</width>
+    <height>852</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -142,7 +142,7 @@ color: black;</string>
       <property name="styleSheet">
        <string notr="true">QPushButton {
     border-radius: 10px;
-    padding: 10px;
+    padding: 5px;
     background-color: #F8F8F8;
     color: #333333;
     border: 2px solid #CCCCCC;
@@ -160,7 +160,7 @@ QPushButton:pressed {
 QLineEdit {
     border: 2px solid #CCCCCC;
     border-radius: 10px;
-    padding: 5px;
+    padding: 3px;
     background-color: #F8F8F8;
     color: #333333;
 }
