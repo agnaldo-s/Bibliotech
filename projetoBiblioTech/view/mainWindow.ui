@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>590</width>
+    <width>852</width>
     <height>910</height>
    </rect>
   </property>
@@ -319,11 +319,6 @@ QHeaderView::section:checked {
     color: #333333;
 }</string>
           </property>
-          <row>
-           <property name="text">
-            <string>New Row</string>
-           </property>
-          </row>
           <column>
            <property name="text">
             <string>ID</string>

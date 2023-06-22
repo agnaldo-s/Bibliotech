@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QMainWindow, QTableWidget
 
 from os import path
 
@@ -15,6 +15,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qst_telas.setCurrentWidget(self.pag_procurar_livro)
         self.tbl_livros.horizontalHeader()
         self.tbl_livros.itemChanged.connect(self.ajusteTabela)
+        self.tbl_livros.setSelectionBehavior(QTableWidget.SelectRows)
+        self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
 
 
     def ajusteTabela(self):
