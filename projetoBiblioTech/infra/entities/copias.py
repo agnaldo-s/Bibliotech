@@ -6,4 +6,4 @@ class Copias(Base):
     __tablename__ = 'copias'
 
     id = Column(Integer, autoincrement=True, primary_key=True)
-    id_livro = Column(Integer, ForeignKey('livro.id'))
+    id_livro = Column(Integer, ForeignKey('livros.id'))

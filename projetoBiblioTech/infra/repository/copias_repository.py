@@ -14,10 +14,10 @@ class Copias_repository:
             data = db.session.query(Copias).filter(Copias.id == id).first()
             return data
 
-    def insert(self, copias: Copias):
+    def insert(self, copia: Copias):
         with DBConnectionHandler() as db:
             try:
-                db.session.add(copias)
+                db.session.add(copia)
                 db.session.commit()
                 print('commitou')
                 return 'ok'

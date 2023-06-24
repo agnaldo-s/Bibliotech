@@ -37,6 +37,6 @@ class Livro_repository:
 
     def update(self, livro: Livro):
         with DBConnectionHandler() as db:
-            db.session.query(Livro).filter(Livro.id == livro.id).update({'titulo': livro.titulo, 'editora':
-                livro.editora, 'ano_publicacao': livro.ano_publicacao,'isbn13': livro.isbn13, 'isbn10': livro.isbn10})
+            db.session.query(Livro).filter(Livro.id == livro.id).update({'titulo': livro.titulo, 'autor': livro.autor, 'editora':
+                livro.editora, 'ano_publicacao': livro.ano_publicacao, 'isbn13': livro.isbn13, 'isbn10': livro.isbn10})
             db.session.commit()
