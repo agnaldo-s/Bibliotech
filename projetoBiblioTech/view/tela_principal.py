@@ -1,4 +1,6 @@
 from PySide6.QtWidgets import QMainWindow, QTableWidget, QMessageBox, QLineEdit, QTextEdit, QComboBox
+
+from projetoBiblioTech.infra.entities.copias import Copias
 from projetoBiblioTech.view.mainWindow import Ui_MainWindow
 from os import path
 from projetoBiblioTech.infra.configs.connection import DBConnectionHandler
@@ -18,6 +20,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
 
+        #Tela cadastro:
+
+        self.txt_id_cad.setReadOnly(True)
+        self.btn_salvar_cad.clicked.connect(self.validarCamposPreenchidos)
+
+
+        self.btn_limpar_cad.clicked.connect(self.limpar_campos)
+
+
+        #Tela de visualizar informações livro
+        self.txt_id.setReadOnly(True)
+
+    ##FUNÇÕES:
     def ajusteTabela(self):
         self.tbl_livros.resizeColumnsToContents()
         self.tbl_livros.resizeRowsToContents()
@@ -26,27 +41,56 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             height = self.tbl_livros.rowHeight(row)
             self.tbl_livros.setRowHeight(row, height + 5)
 
-    ##FUNÇÕES:
-    def cadastrar_livro(self):
-        db = Livro_repository()
+    def validarCamposPreenchidos(self):
+        titulo = self.txt_titulo_cad.text()
+        autora = self.txt_autora_cad.text()
+        editora = self.txt_editora_cad.text()
+        ano_publicacao = self.txt_anoPublicacao_cad_2.text()
+        isbn13 = self.txt_isbn_cad.text()
 
-        livro = Livro(
-            titulo=self.lbl_titulo_cad.text(),
-            editora=self.lbl_editora_cad.text(),
-            ano_publicacao=self.lbl_anoPublicacao_cad.text(),
-            isbn13=self.lbl_isbn_cad.text()
-        )
+        qlines = [titulo, autora, editora, ano_publicacao, isbn13]
+        for s in qlines:
+            if s == '':
+                qlines.remove(s)
+
+        if len(qlines) < 5:
+            msg = QMessageBox()
+            msg.setWindowTitle('Erro')
+            msg.setText('Todos os Campos devem estar Preenchidos')
+            msg.exec()
+        else:
+            livro = Livro()
+            livro.titulo = titulo
+            livro.autor = autora
+            livro.editora = editora
+            livro.ano_publicacao = ano_publicacao
+            livro.isbn13 = isbn13
+            self.cadastrar_livro(livro)
+
+    def cadastrar_livro(self, livro:Livro):
+        db = Livro_repository()
+        db2 = Copias_repository()
 
         retorno = db.insert(livro)
+
         print(retorno)
 
         if retorno == 'ok':
+            numExemplares = int(self.lbn_numExemplares_cad.text())
+            print(numExemplares)
+
+            for i in range(numExemplares):
+                copia = Copias()
+                print(copia)
+                copia.id_livro = livro.id
+                db2.insert(copia)
+
             msg = QMessageBox()
             msg.setWindowTitle('Cadastro')
             msg.setText('Livro Cadastrado com sucesso')
             msg.exec()
             self.limpar_campos()  ### confirmar limparCampos
-            ##Inserir método para retornar a página inicial
+            self.qst_telas.setCurrentWidget(self.pag_procurar_livro)
         elif 'UNIQUE constraint failed:' in retorno.args[0]:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
@@ -61,7 +105,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.exec()
 
     def limpar_campos(self):
-        for widget in self.widget_3.children():
+        for widget in self.widget_CadastroLivro.children():
             if isinstance(widget, QTextEdit):
                 widget.clear()
             elif isinstance(widget, QLineEdit):
