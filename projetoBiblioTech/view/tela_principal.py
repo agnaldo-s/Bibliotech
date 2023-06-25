@@ -18,7 +18,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.tela_inicial()
         self.tbl_livros.horizontalHeader()
-        self.tbl_livros.itemChanged.connect(self.ajusteTabela)
         self.tbl_livros.setSelectionBehavior(QTableWidget.SelectRows)
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
@@ -212,6 +211,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.tbl_livros.setItem(linha, valores.index(valor), item)
                 self.tbl_livros.item(linha, valores.index(valor))
             linha += 1
+        self.ajusteTabela()
     def carregar_livro_selecionado(self, row, collum):
         ##ADICIONAR O QUANTIDADE DE LIVROS
         self.tela_visualizar_livro()
