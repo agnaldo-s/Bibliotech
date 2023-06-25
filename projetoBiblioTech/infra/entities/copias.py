@@ -6,4 +6,5 @@ class Copias(Base):
     __tablename__ = 'copias'
 
     id = Column(Integer, autoincrement=True, primary_key=True)
+    qtd_copias = Column(Integer)
     id_livro = Column(Integer, ForeignKey('livros.id'))
