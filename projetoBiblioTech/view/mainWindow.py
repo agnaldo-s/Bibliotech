@@ -17,22 +17,22 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
     QLabel, QLineEdit, QMainWindow, QPushButton,
-    QSizePolicy, QSpacerItem, QStackedWidget, QStatusBar,
+    QScrollArea, QSizePolicy, QSpacerItem, QStackedWidget,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
 from imagens import imagens
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(794, 852)
+        MainWindow.resize(794, 887)
         MainWindow.setStyleSheet(u"background-color: rgb(246, 245, 244);\n"
-"color: black;")
+"color: black;\n"
+"margin: 0px;")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_11 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
         self.horizontalLayout_20 = QHBoxLayout(self.widget)
@@ -88,9 +88,17 @@ class Ui_MainWindow(object):
         self.horizontalLayout_20.addItem(self.horizontalSpacer_14)
 
 
-        self.verticalLayout_2.addWidget(self.widget)
+        self.verticalLayout_11.addWidget(self.widget)
 
-        self.qst_telas = QStackedWidget(self.centralwidget)
+        self.scrollArea = QScrollArea(self.centralwidget)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 774, 673))
+        self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.qst_telas = QStackedWidget(self.scrollAreaWidgetContents)
         self.qst_telas.setObjectName(u"qst_telas")
         self.qst_telas.setStyleSheet(u"QPushButton {\n"
 "    border-radius: 10px;\n"
@@ -420,6 +428,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_7.addWidget(self.btn_atualizar)
 
+        self.btn_voltar = QPushButton(self.pag_editar_livro)
+        self.btn_voltar.setObjectName(u"btn_voltar")
+
+        self.verticalLayout_7.addWidget(self.btn_voltar)
+
 
         self.horizontalLayout_18.addLayout(self.verticalLayout_7)
 
@@ -618,6 +631,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5.addWidget(self.btn_salvar_cad)
 
+        self.btn_voltat_cad = QPushButton(self.widget_4)
+        self.btn_voltat_cad.setObjectName(u"btn_voltat_cad")
+
+        self.verticalLayout_5.addWidget(self.btn_voltat_cad)
+
 
         self.horizontalLayout_21.addLayout(self.verticalLayout_5)
 
@@ -635,14 +653,15 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.qst_telas)
 
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+
+        self.verticalLayout_11.addWidget(self.scrollArea)
+
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QStatusBar(MainWindow)
-        self.statusbar.setObjectName(u"statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
 
-        self.qst_telas.setCurrentIndex(2)
+        self.qst_telas.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -690,6 +709,7 @@ class Ui_MainWindow(object):
         self.btn_editar.setText(QCoreApplication.translate("MainWindow", u"Editar", None))
         self.btn_deletar.setText(QCoreApplication.translate("MainWindow", u"Deletar", None))
         self.btn_atualizar.setText(QCoreApplication.translate("MainWindow", u"Atualizar", None))
+        self.btn_voltar.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
         self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Cadastro</span></p></body></html>", None))
         self.lbl_id_cad.setText(QCoreApplication.translate("MainWindow", u"ID:", None))
         self.txt_id_cad.setText("")
@@ -709,5 +729,6 @@ class Ui_MainWindow(object):
         self.btn_addImagem_cad.setText(QCoreApplication.translate("MainWindow", u"Adicionar Imagem", None))
         self.btn_limpar_cad.setText(QCoreApplication.translate("MainWindow", u"Limpar", None))
         self.btn_salvar_cad.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
+        self.btn_voltat_cad.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
     # retranslateUi
 
