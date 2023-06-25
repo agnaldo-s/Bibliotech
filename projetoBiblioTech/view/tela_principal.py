@@ -33,6 +33,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Tela de visualizar informações livro
         self.txt_id.setReadOnly(True)
+        self.btn_deletar.clicked.connect(self.remover_livro)
 
         #Tela cadastro:
 
@@ -156,11 +157,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         resultado = self.copias_repository.select(pesquisa)
 
         if resultado:
-            QMessageBox.information(self, "Resultados", f"Foram encontrados {len(resultado)} resultados.")
+            QMessageBox.information(self, "Resultados", f"Foram encontrados {resultado} resultados.")
             for rt in resultado:
                 print(resultado)
         else:
             QMessageBox.warning(self, "Sem resultados", "Nenhum resultado encontrado.")
+
+    def remover_livro(self):
+
+        db = Livro_repository()
+        msg = QMessageBox()
+        msg.setWindowTitle('Remover livro')
+        msg.setText('Este livro será removida')
+        msg.setInformativeText(f'Você deseja remover o livro de id {self.txt_id.text()}?')
+        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msg.button(QMessageBox.Yes).setText('Sim')
+        msg.button(QMessageBox.No).setText('Não')
+
+        resposta = msg.exec()
+
+        if resposta == QMessageBox.Yes:
+            retorno = db.delete(self.txt_id.text())
+
+            if retorno == 'ok':
+                nv_msg = QMessageBox()
+                nv_msg.setWindowTitle('Remover livro')
+                nv_msg.setText('Livro removido com sucesso')
+                nv_msg.exec()
+            else:
+                nv_msg = QMessageBox()
+                nv_msg.setWindowTitle('Remover livro')
+                nv_msg.setText('Erro ao Remover')
+                nv_msg.exec()
+            self.txt_id.setReadOnly(False)
+            self.popula_tabela_livros()
+
+
+
 
     def popula_tabela_livros(self):
         self.tbl_livros.setRowCount(0)
