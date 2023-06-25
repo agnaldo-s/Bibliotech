@@ -6,6 +6,6 @@ app = QApplication(sys.argv)
 
 window = MainWindow()
 window.show()
-#window.showMaximized()
+window.showMaximized()
 
 app.exec()
