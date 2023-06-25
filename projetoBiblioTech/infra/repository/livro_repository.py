@@ -11,10 +11,15 @@ class Livro_repository:
             data = db.session.query(Livro).all()
             return data
 
+    def joinLivro_Copias(self):
+        with DBConnectionHandler() as db:
+            join = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).all()
+            return join
+
     def findByTitulo(self, titulo):
         with DBConnectionHandler() as db:
-            data = db.session.query(Livro).filter(Livro.titulo == titulo).first()
-            return data
+            data = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).filter(Livro.titulo == titulo
+                                                                                            ).all()
 
     def select(self, id):
         with DBConnectionHandler() as db:

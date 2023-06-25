@@ -123,7 +123,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print(variavel)
         if variavel != '':
 
-
             db = Livro_repository()
             retorno = db.findByTitulo(self.txt_input_nome_livro.text())
 
