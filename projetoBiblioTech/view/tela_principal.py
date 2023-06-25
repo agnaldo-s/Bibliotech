@@ -1,4 +1,5 @@
-from PySide6.QtWidgets import QMainWindow, QTableWidget, QMessageBox, QLineEdit, QTextEdit, QComboBox, QTableWidgetItem
+from PySide6.QtWidgets import QMainWindow, QTableWidget, QMessageBox, QLineEdit, QTextEdit, QComboBox, QTableWidgetItem, \
+    QPushButton
 
 from projetoBiblioTech.infra.entities.copias import Copias
 from projetoBiblioTech.view.mainWindow import Ui_MainWindow
@@ -21,6 +22,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.setSelectionBehavior(QTableWidget.SelectRows)
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
+        self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
+        self.copias_repository = Copias_repository()
         self.popula_tabela_livros()
 
         self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
@@ -120,6 +123,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print(variavel)
         if variavel != '':
 
+
             db = Livro_repository()
             retorno = db.findByTitulo(self.txt_input_nome_livro.text())
 
@@ -143,6 +147,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def tela_visualizar_livro(self):
         self.qst_telas.setCurrentIndex(1)
+      
+    def pesquisar_livro(self):
+        pesquisa = self.txt_input_nome_livro.text()
+        resultado = self.copias_repository.select(pesquisa)
+
+        if resultado:
+            QMessageBox.information(self, "Resultados", f"Foram encontrados {len(resultado)} resultados.")
+            for rt in re:
+                print(resultado)
+        else:
+            QMessageBox.warning(self, "Sem resultados", "Nenhum resultado encontrado.")
 
     def popula_tabela_livros(self):
         self.tbl_livros.setRowCount(0)
