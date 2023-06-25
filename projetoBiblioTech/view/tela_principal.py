@@ -22,6 +22,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
         self.popula_tabela_livros()
+
+        self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
+        self.tbl_livros.cellDoubleClicked.connect(self.carregar_livro_selecionado)
+
+        # Tela de visualizar informações livro
+        self.txt_id.setReadOnly(True)
+
         #Tela cadastro:
 
         self.txt_id_cad.setReadOnly(True)
@@ -31,8 +38,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_limpar_cad.clicked.connect(self.limpar_campos)
 
 
-        #Tela de visualizar informações livro
-        self.txt_id.setReadOnly(True)
+
 
     ##FUNÇÕES:
     def ajusteTabela(self):
@@ -109,32 +115,61 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_addImagem_cad.setVisible(True)
         self.txt_id_cad.setReadOnly(True)
 
-    def consultar_livro(self):
-        if self.txt_cpf.text().replace('.', '').replace('-', '') != '':
+    def pesquisar_livro_Ana(self):
+        variavel = self.txt_input_nome_livro.text()
+        print(variavel)
+        if variavel != '':
 
             db = Livro_repository()
-            db2 = Copias_repository()
-            retorno = db.select(self.txt_input_nome_livro.text().lower())
+            retorno = db.findByTitulo(self.txt_input_nome_livro.text())
 
             if retorno is not None:
-                self.self.stackedWidget.setCurrentIndex(1)
+                self.tbl_livros.setRowCount(0)
+                resultado = retorno
+                print(retorno)
+                self.tbl_livros.setRowCount(len(resultado))
+
+                linha = 0
+                for livro in resultado:
+                    valores = [livro.id, livro.titulo, livro.titulo, livro.editora, livro.isbn13, livro.ano_publicacao]
+                    for valor in valores:
+                        item = QTableWidgetItem(str(valor))
+                        self.tbl_livros.setItem(linha, valores.index(valor), item)
+                        self.tbl_livros.item(linha, valores.index(valor))
+                    linha += 1
 
     def tela_cadastro_livro(self):
         self.qst_telas.setCurrentWidget(self.page_cadastroLivro)
 
+    def tela_visualizar_livro(self):
+        self.qst_telas.setCurrentIndex(1)
+
     def popula_tabela_livros(self):
         self.tbl_livros.setRowCount(0)
         conn = Livro_repository()
-        lista_livros = conn.select_all()
+        lista_livros = conn.joinLivro_Copias()
+        print(lista_livros)
         self.tbl_livros.setRowCount(len(lista_livros))
+
+        print(conn.joinLivro_Copias())
 
         linha = 0
         for livro in lista_livros:
-            valores = [livro.id, livro.titulo, livro.titulo, livro.editora, livro.isbn13, livro.ano_publicacao]
+            valores = [livro.id, livro.titulo, livro.autor, livro.titulo, livro.editora, livro.isbn13, livro.ano_publicacao]
             for valor in valores:
                 item = QTableWidgetItem(str(valor))
                 self.tbl_livros.setItem(linha, valores.index(valor), item)
                 self.tbl_livros.item(linha, valores.index(valor))
             linha += 1
+    def carregar_livro_selecionado(self, row, collum):
+        ##ADICIONAR O QUANTIDADE DE LIVROS
+        self.tela_visualizar_livro()
 
+        self.txt_id.setText(self.tbl_livros.item(row, 0).text())
+        self.txt_titulo.setText(self.tbl_livros.item(row, 1).text())
+        self.txt_autora.setText(self.tbl_livros.item(row, 2).text())
+        self.txt_editora.setText(self.tbl_livros.item(row, 3).text())
+        self.txt_isbn.setText(self.tbl_livros.item(row, 4).text())
+        self.txt_anoPublicacao.setText(self.tbl_livros.item(row, 5).text())
 
+        self.txt_id.setReadOnly()
