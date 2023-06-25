@@ -24,6 +24,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
         self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro_Ana)
         self.copias_repository = Copias_repository()
+
         self.btn_voltar.clicked.connect(self.tela_inicial)
 
         self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
