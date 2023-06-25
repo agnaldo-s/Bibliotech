@@ -44,10 +44,11 @@ class Livro_repository:
 
         print(last_id)
 
-    def delete(self, id):
+    def delete(self, isbn):
         with DBConnectionHandler() as db:
-            db.session.query(Livro).filter(Livro.id == id).delete()
+            db.session.query(Livro).filter(Livro.isbn13 == id).delete()
             db.session.commit()
+            return 'ok'
 
     def update(self, livro: Livro):
         with DBConnectionHandler() as db:

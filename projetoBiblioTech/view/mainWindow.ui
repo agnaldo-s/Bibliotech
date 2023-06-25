@@ -21,6 +21,9 @@ margin: 0px;</string>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_11">
     <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_22"/>
+    </item>
+    <item>
      <widget class="QWidget" name="widget" native="true">
       <layout class="QHBoxLayout" name="horizontalLayout_20">
        <item>
@@ -148,7 +151,7 @@ margin: 0px;</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>774</width>
+         <width>760</width>
          <height>673</height>
         </rect>
        </property>
@@ -303,9 +306,11 @@ QPushButton:hover {
              </layout>
             </item>
             <item>
-             <widget class="QTableWidget" name="tbl_livros">
-              <property name="styleSheet">
-               <string notr="true">QTableView {
+             <layout class="QHBoxLayout" name="horizontalLayout_23">
+              <item>
+               <widget class="QTableWidget" name="tbl_livros">
+                <property name="styleSheet">
+                 <string notr="true">QTableView {
     background-color: #FFFFFF;
     alternate-background-color: #F8F8F8;
     border: 1px solid #CCCCCC;
@@ -334,38 +339,45 @@ QHeaderView::section:checked {
     background-color: #EDEDED;
     color: #333333;
 }</string>
-              </property>
-              <column>
-               <property name="text">
-                <string>ID</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Título</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Autor</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Editora</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>ISBN</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Ano de Publicação</string>
-               </property>
-              </column>
-             </widget>
+                </property>
+                <column>
+                 <property name="text">
+                  <string>ID</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Título</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Autor</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Editora</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>ISBN</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Ano de Publicação</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Quantidade exemplares</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>

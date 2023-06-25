@@ -33,6 +33,11 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_11 = QVBoxLayout(self.centralwidget)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.horizontalLayout_22 = QHBoxLayout()
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+
+        self.verticalLayout_11.addLayout(self.horizontalLayout_22)
+
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
         self.horizontalLayout_20 = QHBoxLayout(self.widget)
@@ -95,7 +100,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 774, 673))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 760, 673))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.qst_telas = QStackedWidget(self.scrollAreaWidgetContents)
@@ -195,9 +200,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_8)
 
+        self.horizontalLayout_23 = QHBoxLayout()
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
         self.tbl_livros = QTableWidget(self.pag_procurar_livro)
-        if (self.tbl_livros.columnCount() < 6):
-            self.tbl_livros.setColumnCount(6)
+        if (self.tbl_livros.columnCount() < 7):
+            self.tbl_livros.setColumnCount(7)
         __qtablewidgetitem = QTableWidgetItem()
         self.tbl_livros.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -210,6 +217,8 @@ class Ui_MainWindow(object):
         self.tbl_livros.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         __qtablewidgetitem5 = QTableWidgetItem()
         self.tbl_livros.setHorizontalHeaderItem(5, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.tbl_livros.setHorizontalHeaderItem(6, __qtablewidgetitem6)
         self.tbl_livros.setObjectName(u"tbl_livros")
         self.tbl_livros.setStyleSheet(u"QTableView {\n"
 "    background-color: #FFFFFF;\n"
@@ -241,7 +250,10 @@ class Ui_MainWindow(object):
 "    color: #333333;\n"
 "}")
 
-        self.verticalLayout_3.addWidget(self.tbl_livros)
+        self.horizontalLayout_23.addWidget(self.tbl_livros)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_23)
 
         self.qst_telas.addWidget(self.pag_procurar_livro)
         self.pag_editar_livro = QWidget()
@@ -686,6 +698,8 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"ISBN", None));
         ___qtablewidgetitem5 = self.tbl_livros.horizontalHeaderItem(5)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Ano de Publica\u00e7\u00e3o", None));
+        ___qtablewidgetitem6 = self.tbl_livros.horizontalHeaderItem(6)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Quantidade exemplares", None));
         self.lbl_imagem_livro_editar.setText("")
         self.lbl_id.setText(QCoreApplication.translate("MainWindow", u"ID:", None))
         self.txt_id.setInputMask("")
