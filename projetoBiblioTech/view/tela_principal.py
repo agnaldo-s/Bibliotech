@@ -16,7 +16,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
-        self.qst_telas.setCurrentWidget(self.pag_procurar_livro)
+        self.tela_inicial()
         self.tbl_livros.horizontalHeader()
         self.tbl_livros.itemChanged.connect(self.ajusteTabela)
         self.tbl_livros.setSelectionBehavior(QTableWidget.SelectRows)
@@ -24,7 +24,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
         self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro_Ana)
         self.copias_repository = Copias_repository()
-        self.popula_tabela_livros()
         self.btn_voltar.clicked.connect(self.tela_inicial)
 
         self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
@@ -40,8 +39,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
         self.btn_limpar_cad.clicked.connect(self.limpar_campos)
-
-
 
 
     ##FUNÇÕES:
@@ -92,7 +89,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.setText('Livro Cadastrado com sucesso')
             msg.exec()
             self.limpar_campos()  ### confirmar limparCampos
-            self.qst_telas.setCurrentWidget(self.pag_procurar_livro)
+            self.tela_inicial()
         elif 'UNIQUE constraint failed:' in retorno.args[0]:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
@@ -124,7 +121,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print(variavel)
         if variavel != '':
 
-
             db = Livro_repository()
             retorno = db.findByTitulo(self.txt_input_nome_livro.text())
 
@@ -151,6 +147,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def tela_inicial(self):
         self.qst_telas.setCurrentIndex(0)
+        self.popula_tabela_livros()
       
     def pesquisar_livro(self):
         pesquisa = self.txt_input_nome_livro.text()
