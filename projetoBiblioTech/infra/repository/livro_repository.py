@@ -1,5 +1,7 @@
 from projetoBiblioTech.infra.configs.connection import DBConnectionHandler
+from projetoBiblioTech.infra.entities.copias import Copias
 from projetoBiblioTech.infra.entities.livro import Livro
+from projetoBiblioTech.infra.repository.copias_repository import Copias_repository
 
 
 class Livro_repository:
@@ -19,16 +21,28 @@ class Livro_repository:
             data = db.session.query(Livro).filter(Livro.id == id).first()
             return data
 
-    def insert(self, livro: Livro):
+    def insert(self, livro: Livro, copias: int):
         with DBConnectionHandler() as db:
             try:
+                db2 = Copias_repository()
+                copia = Copias()
+                copia.qtd_copias = copias
                 db.session.add(livro)
                 db.session.commit()
+                last_id = db.session.query(Livro.id).order_by(Livro.id.desc()).limit(1).scalar()
+                copia.id_livro = last_id
+                print(copia.id_livro, copia.qtd_copias)
+
+                db2.insert(copia)
+
+                print("Último ID inserido:", last_id)
                 print('commitou')
                 return 'ok'
             except Exception as e:
                 db.session.rollback()
                 return e
+
+        print(last_id)
 
     def delete(self, id):
         with DBConnectionHandler() as db:

@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QTableWidget, QMessageBox, QLineEdit, QTextEdit, QComboBox
+from PySide6.QtWidgets import QMainWindow, QTableWidget, QMessageBox, QLineEdit, QTextEdit, QComboBox, QTableWidgetItem
 
 from projetoBiblioTech.infra.entities.copias import Copias
 from projetoBiblioTech.view.mainWindow import Ui_MainWindow
@@ -7,6 +7,8 @@ from projetoBiblioTech.infra.configs.connection import DBConnectionHandler
 from projetoBiblioTech.infra.entities.livro import Livro
 from projetoBiblioTech.infra.repository.copias_repository import Copias_repository
 from projetoBiblioTech.infra.repository.livro_repository import Livro_repository
+
+
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -19,7 +21,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.setSelectionBehavior(QTableWidget.SelectRows)
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
-
+        self.popula_tabela_livros()
         #Tela cadastro:
 
         self.txt_id_cad.setReadOnly(True)
@@ -69,22 +71,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def cadastrar_livro(self, livro:Livro):
         db = Livro_repository()
-        db2 = Copias_repository()
+        copia = self.lbn_numExemplares_cad.text()
 
-        retorno = db.insert(livro)
-
+        retorno = db.insert(livro, copia)
         print(retorno)
 
         if retorno == 'ok':
-            numExemplares = int(self.lbn_numExemplares_cad.text())
-            print(numExemplares)
-
-            for i in range(numExemplares):
-                copia = Copias()
-                print(copia)
-                copia.id_livro = livro.id
-                db2.insert(copia)
-
             msg = QMessageBox()
             msg.setWindowTitle('Cadastro')
             msg.setText('Livro Cadastrado com sucesso')
@@ -129,5 +121,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def tela_cadastro_livro(self):
         self.qst_telas.setCurrentWidget(self.page_cadastroLivro)
+
+    def popula_tabela_livros(self):
+        self.tbl_livros.setRowCount(0)
+        conn = Livro_repository()
+        lista_livros = conn.select_all()
+        self.tbl_livros.setRowCount(len(lista_livros))
+
+        linha = 0
+        for livro in lista_livros:
+            valores = [livro.id, livro.titulo, livro.titulo, livro.editora, livro.isbn13, livro.ano_publicacao]
+            for valor in valores:
+                item = QTableWidgetItem(str(valor))
+                self.tbl_livros.setItem(linha, valores.index(valor), item)
+                self.tbl_livros.item(linha, valores.index(valor))
+            linha += 1
 
 
