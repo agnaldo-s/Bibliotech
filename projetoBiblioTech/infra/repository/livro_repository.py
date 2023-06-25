@@ -21,6 +21,7 @@ class Livro_repository:
             data = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).filter(Livro.titulo == titulo
                                                                                             ).all()
             return data
+
     def select(self, id):
         with DBConnectionHandler() as db:
             data = db.session.query(Livro).filter(Livro.id == id).first()
