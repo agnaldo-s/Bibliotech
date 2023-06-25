@@ -23,8 +23,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
         self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
-        self.copias_repository = Copias_repository()
+        self.livro_repository = Livro_repository()
         self.popula_tabela_livros()
+
         #Tela cadastro:
 
         self.txt_id_cad.setReadOnly(True)
@@ -128,12 +129,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def pesquisar_livro(self):
         pesquisa = self.txt_input_nome_livro.text()
-        resultado = self.copias_repository.select(pesquisa)
+        resultado = self.livro_repository.findByTitulo(pesquisa)
 
         if resultado:
-            QMessageBox.information(self, "Resultados", f"Foram encontrados {len(resultado)} resultados.")
-            for rt in re:
-                print(resultado)
+            QMessageBox.information(self, "Resultados", f"Foram encontrados {(resultado.)} resultados.")
+            for r in resultado:
+                print(r)
         else:
             QMessageBox.warning(self, "Sem resultados", "Nenhum resultado encontrado.")
 
