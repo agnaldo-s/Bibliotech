@@ -22,9 +22,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.setSelectionBehavior(QTableWidget.SelectRows)
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
-        self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
+        self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro_Ana)
         self.copias_repository = Copias_repository()
         self.popula_tabela_livros()
+        self.btn_voltar.clicked.connect(self.tela_inicial)
 
         self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
         self.tbl_livros.cellDoubleClicked.connect(self.carregar_livro_selecionado)
@@ -147,6 +148,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def tela_visualizar_livro(self):
         self.qst_telas.setCurrentIndex(1)
+
+    def tela_inicial(self):
+        self.qst_telas.setCurrentIndex(0)
       
     def pesquisar_livro(self):
         pesquisa = self.txt_input_nome_livro.text()
@@ -154,7 +158,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if resultado:
             QMessageBox.information(self, "Resultados", f"Foram encontrados {len(resultado)} resultados.")
-            for rt in re:
+            for rt in resultado:
                 print(resultado)
         else:
             QMessageBox.warning(self, "Sem resultados", "Nenhum resultado encontrado.")
@@ -180,11 +184,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ##ADICIONAR O QUANTIDADE DE LIVROS
         self.tela_visualizar_livro()
 
-        self.txt_id.setText(self.tbl_livros.item(row, 0).text())
-        self.txt_titulo.setText(self.tbl_livros.item(row, 1).text())
-        self.txt_autora.setText(self.tbl_livros.item(row, 2).text())
-        self.txt_editora.setText(self.tbl_livros.item(row, 3).text())
-        self.txt_isbn.setText(self.tbl_livros.item(row, 4).text())
-        self.txt_anoPublicacao.setText(self.tbl_livros.item(row, 5).text())
+        self.txt_id.setText(self.tbl_livros.item(row, 1).text())
+        self.txt_titulo.setText(self.tbl_livros.item(row, 2).text())
+        self.txt_autora.setText(self.tbl_livros.item(row, 3).text())
+        self.txt_editora.setText(self.tbl_livros.item(row, 4).text())
+        self.txt_isbn.setText(self.tbl_livros.item(row, 5).text())
+        self.txt_anoPublicacao.setText(self.tbl_livros.item(row, 6).text())
+
 
         self.txt_id.setReadOnly()
+
+    def remover_livro(self):
+        msg = QMessageBox()
+        msg.setWindowTitle('Remover Livro')
+        msg.setText('Esse Livro será Removido')
+        msg.setInformativeText(f'Você deseja remover o livro de isbn: {self.txt_isbn.text()} ?')
+        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msg.button(QMessageBox.Yes).setText('Sim')
+        msg.button(QMessageBox.No).setText('Não')
+        resposta = msg.exec()
+        self.limpar_campos()
+
+        if resposta == QMessageBox.Yes:
+            db = Livro_repository()
+            retorno = db.delete(self.txt_isbn.text())
+
+            if retorno == 'ok':
+                new_msg = QMessageBox()
+                new_msg.setWindowTitle('Remover Livro')
+                new_msg.setText('Livro removido com sucesso!')
+                new_msg.exec()
+                self.limpar_campos()
+            else:
+                new_msg = QMessageBox()
+                new_msg.setWindowTitle('Remover Livro')
+                new_msg.setText('Erro ao remover livro!')
+                new_msg.exec()
+        self.tela_inicial()
+        self.popula_tabela_livros()
+
