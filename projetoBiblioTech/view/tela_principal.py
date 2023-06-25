@@ -26,6 +26,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.copias_repository = Copias_repository()
 
         self.btn_voltar.clicked.connect(self.tela_inicial)
+        self.btn_voltat_cad.clicked.connect(self.tela_inicial)
 
         self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
         self.tbl_livros.cellDoubleClicked.connect(self.carregar_livro_selecionado)
@@ -144,10 +145,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qst_telas.setCurrentWidget(self.page_cadastroLivro)
 
     def tela_visualizar_livro(self):
-        self.qst_telas.setCurrentIndex(1)
+        self.qst_telas.setCurrentWidget(self.pag_editar_livro)
 
     def tela_inicial(self):
-        self.qst_telas.setCurrentIndex(0)
+        self.qst_telas.setCurrentWidget(self.pag_procurar_livro)
         self.popula_tabela_livros()
       
     def pesquisar_livro(self):
