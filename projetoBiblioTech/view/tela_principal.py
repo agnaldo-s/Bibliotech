@@ -34,7 +34,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.btn_atualizar.clicked.connect(self.carregar_livros_atualizar)
 
+
         self.txt_id_cad.setReadOnly(True)
+
         self.btn_salvar_cad.clicked.connect(self.validarCamposPreenchidos)
 
         self.txt_id_cad.setReadOnly(True)
@@ -276,6 +278,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tela_inicial()
         self.popula_tabela_livros()
 
+
     def preencher_tabela(self, resultado):
         self.tbl_livros.clearContents()
         self.tbl_livros.setRowCount(len(resultado))
@@ -301,3 +304,4 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.txt_isbn_cad.setText(self.txt_isbn.text())
         self.txt_anoPublicacao_cad_2.setText(self.txt_anoPublicacao.text())
         self.lbn_numExemplares_cad.setText(self.txt_numExemplares_2.text())
+
