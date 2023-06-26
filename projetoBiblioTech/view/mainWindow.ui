@@ -150,9 +150,9 @@ margin: 0px;</string>
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>-4</y>
          <width>760</width>
-         <height>673</height>
+         <height>669</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -196,7 +196,7 @@ QLabel{
 }</string>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="pag_procurar_livro">
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -455,6 +455,10 @@ QHeaderView::section:checked {
             </item>
             <item>
              <widget class="QWidget" name="widget_Visualizar_DadosLivro" native="true">
+              <property name="styleSheet">
+               <string notr="true">border: none;
+background-color: rgb(246, 245, 244);</string>
+              </property>
               <layout class="QVBoxLayout" name="verticalLayout">
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -495,7 +499,7 @@ QHeaderView::section:checked {
                  <item>
                   <widget class="QLabel" name="lbl_titulo">
                    <property name="text">
-                    <string>Título</string>
+                    <string>Título:</string>
                    </property>
                   </widget>
                  </item>
@@ -507,6 +511,9 @@ QHeaderView::section:checked {
                    <property name="text">
                     <string/>
                    </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -516,7 +523,7 @@ QHeaderView::section:checked {
                  <item>
                   <widget class="QLabel" name="lbl_autora">
                    <property name="text">
-                    <string>Autor (a)</string>
+                    <string>Autor (a):</string>
                    </property>
                   </widget>
                  </item>
@@ -524,6 +531,9 @@ QHeaderView::section:checked {
                   <widget class="QLineEdit" name="txt_autora">
                    <property name="text">
                     <string/>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -542,6 +552,9 @@ QHeaderView::section:checked {
                   <widget class="QLineEdit" name="txt_editora">
                    <property name="text">
                     <string/>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -563,6 +576,9 @@ QHeaderView::section:checked {
                    </property>
                    <property name="text">
                     <string>---</string>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
                    </property>
                    <property name="placeholderText">
                     <string>I</string>
@@ -587,6 +603,9 @@ QHeaderView::section:checked {
                    </property>
                    <property name="text">
                     <string/>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -618,6 +637,9 @@ QHeaderView::section:checked {
                   <widget class="QLineEdit" name="txt_numExemplares_2">
                    <property name="text">
                     <string/>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -657,23 +679,13 @@ QHeaderView::section:checked {
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_7">
                 <item>
-                 <widget class="QPushButton" name="btn_editar">
+                 <widget class="QPushButton" name="btn_deletar">
                   <property name="minimumSize">
                    <size>
                     <width>300</width>
                     <height>0</height>
                    </size>
                   </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="text">
-                   <string>Editar</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="btn_deletar">
                   <property name="cursor">
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
@@ -741,6 +753,10 @@ QHeaderView::section:checked {
                  </item>
                  <item>
                   <widget class="QLineEdit" name="txt_id_cad">
+                   <property name="styleSheet">
+                    <string notr="true">border: none;
+background-color: rgb(246, 245, 244);</string>
+                   </property>
                    <property name="text">
                     <string/>
                    </property>
@@ -802,7 +818,7 @@ QHeaderView::section:checked {
                  <item>
                   <widget class="QLabel" name="lbl_editora_cad">
                    <property name="text">
-                    <string>Editora:</string>
+                    <string>Editora</string>
                    </property>
                   </widget>
                  </item>
@@ -820,7 +836,7 @@ QHeaderView::section:checked {
                  <item>
                   <widget class="QLabel" name="lbl_isbn_cad">
                    <property name="text">
-                    <string>ISBN:</string>
+                    <string>ISBN</string>
                    </property>
                   </widget>
                  </item>

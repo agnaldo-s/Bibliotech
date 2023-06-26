@@ -21,13 +21,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.setSelectionBehavior(QTableWidget.SelectRows)
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
-        self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro_Ana)
+        self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
+        self.txt_input_nome_livro.textChanged.connect(self.pesquisar_nome_livro)
         self.copias_repository = Copias_repository()
-
         self.btn_voltar.clicked.connect(self.tela_inicial)
         self.btn_voltat_cad.clicked.connect(self.tela_inicial)
-
-        self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
         self.tbl_livros.cellDoubleClicked.connect(self.carregar_livro_selecionado)
 
         # Tela de visualizar informações livro
@@ -117,12 +115,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_salvar_cad.setText('Salvar')
         self.btn_addImagem_cad.setVisible(True)
         self.txt_id_cad.setReadOnly(True)
+    def pesquisar_nome_livro(self):
+        livro = self.txt_input_nome_livro.text()
+        if livro == '':
+            self.popula_tabela_livros()
+        else:
+            db = Livro_repository()
+            retorno = db.findByPalavraNoTitulo(livro)
+            self.preencher_tabela(retorno)
 
-    def pesquisar_livro_Ana(self):
+
+    def pesquisar_livro(self):
         variavel = self.txt_input_nome_livro.text()
-        print(variavel)
         if variavel != '':
-
             db = Livro_repository()
             retorno = db.findByTitulo(self.txt_input_nome_livro.text())
 
@@ -132,14 +137,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print(retorno)
                 self.tbl_livros.setRowCount(len(resultado))
 
-                linha = 0
-                for livro in resultado:
-                    valores = [livro.id, livro.titulo, livro.titulo, livro.editora, livro.isbn13, livro.ano_publicacao]
-                    for valor in valores:
-                        item = QTableWidgetItem(str(valor))
-                        self.tbl_livros.setItem(linha, valores.index(valor), item)
-                        self.tbl_livros.item(linha, valores.index(valor))
-                    linha += 1
+                if resultado:
+                    self.preencher_tabela(resultado)
+                    QMessageBox.information(self, "Resultados", f"Foram encontrados {str(len(resultado))} resultados.")
+                else:
+                    QMessageBox.warning(self, "Sem resultados", "Nenhum resultado encontrado.")
+                    self.popula_tabela_livros()
+
+
 
     def tela_cadastro_livro(self):
         self.qst_telas.setCurrentWidget(self.page_cadastroLivro)
@@ -150,17 +155,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def tela_inicial(self):
         self.qst_telas.setCurrentWidget(self.pag_procurar_livro)
         self.popula_tabela_livros()
-      
-    def pesquisar_livro(self):
-        pesquisa = self.txt_input_nome_livro.text()
-        resultado = self.copias_repository.select(pesquisa)
 
-        if resultado:
-            QMessageBox.information(self, "Resultados", f"Foram encontrados {resultado} resultados.")
-            for rt in resultado:
-                print(resultado)
-        else:
-            QMessageBox.warning(self, "Sem resultados", "Nenhum resultado encontrado.")
 
     def remover_livro(self):
 
@@ -254,4 +249,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 new_msg.exec()
         self.tela_inicial()
         self.popula_tabela_livros()
+
+    def preencher_tabela(self, resultado):
+        self.tbl_livros.clearContents()
+        self.tbl_livros.setRowCount(len(resultado))
+        linha = 0
+        for livro in resultado:
+            valores = [livro.id, livro.titulo, livro.titulo, livro.editora, livro.isbn13,
+                       livro.ano_publicacao]
+            for valor in valores:
+                item = QTableWidgetItem(str(valor))
+                self.tbl_livros.setItem(linha, valores.index(valor), item)
+                self.tbl_livros.item(linha, valores.index(valor))
+            linha += 1
+        self.ajusteTabela()
 

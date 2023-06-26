@@ -18,8 +18,14 @@ class Livro_repository:
 
     def findByTitulo(self, titulo):
         with DBConnectionHandler() as db:
-            data = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).filter(Livro.titulo == titulo
-                                                                                            ).all()
+            data = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).filter(
+                Livro.titulo.ilike(titulo)).all()
+            return data
+
+    def findByPalavraNoTitulo(self, palavra):
+        with DBConnectionHandler() as db:
+            data = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).filter(
+                Livro.titulo.ilike(f"%{palavra}%")).all()
             return data
 
     def select(self, id):
