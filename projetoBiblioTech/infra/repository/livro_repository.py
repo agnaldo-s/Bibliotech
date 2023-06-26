@@ -18,8 +18,14 @@ class Livro_repository:
 
     def findByTitulo(self, titulo):
         with DBConnectionHandler() as db:
-            data = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).filter(Livro.titulo == titulo
-                                                                                            ).all()
+            data = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).filter(
+                Livro.titulo.ilike(titulo)).all()
+            return data
+
+    def findByPalavraNoTitulo(self, palavra):
+        with DBConnectionHandler() as db:
+            data = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).filter(
+                Livro.titulo.ilike(f"%{palavra}%")).all()
             return data
 
     def select(self, id):
@@ -63,8 +69,11 @@ class Livro_repository:
             copia.qtd_copias = qtdCopias
             db2.update(livro.id, copia)
 
-            db.session.query(Livro).filter(Livro.id == livro.id).update({'titulo': livro.titulo, 'autor': livro.autor, 'editora':
-                livro.editora, 'ano_publicacao': livro.ano_publicacao, 'isbn13': livro.isbn13})
+
+            db.session.query(Livro).filter(Livro.id == livro.id).update(
+                {'titulo': livro.titulo, 'autor': livro.autor, 'editora':
+                    livro.editora, 'ano_publicacao': livro.ano_publicacao, 'isbn13': livro.isbn13})
+
             db.session.commit()
 
             return 'ok'

@@ -100,7 +100,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 760, 673))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -4, 760, 669))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.qst_telas = QStackedWidget(self.scrollAreaWidgetContents)
@@ -291,6 +291,8 @@ class Ui_MainWindow(object):
 
         self.widget_Visualizar_DadosLivro = QWidget(self.pag_editar_livro)
         self.widget_Visualizar_DadosLivro.setObjectName(u"widget_Visualizar_DadosLivro")
+        self.widget_Visualizar_DadosLivro.setStyleSheet(u"border: none;\n"
+"background-color: rgb(246, 245, 244);")
         self.verticalLayout = QVBoxLayout(self.widget_Visualizar_DadosLivro)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout_6 = QHBoxLayout()
@@ -321,6 +323,7 @@ class Ui_MainWindow(object):
 
         self.txt_titulo = QLineEdit(self.widget_Visualizar_DadosLivro)
         self.txt_titulo.setObjectName(u"txt_titulo")
+        self.txt_titulo.setReadOnly(True)
 
         self.horizontalLayout_7.addWidget(self.txt_titulo)
 
@@ -336,6 +339,7 @@ class Ui_MainWindow(object):
 
         self.txt_autora = QLineEdit(self.widget_Visualizar_DadosLivro)
         self.txt_autora.setObjectName(u"txt_autora")
+        self.txt_autora.setReadOnly(True)
 
         self.horizontalLayout_4.addWidget(self.txt_autora)
 
@@ -351,6 +355,7 @@ class Ui_MainWindow(object):
 
         self.txt_editora = QLineEdit(self.widget_Visualizar_DadosLivro)
         self.txt_editora.setObjectName(u"txt_editora")
+        self.txt_editora.setReadOnly(True)
 
         self.horizontalLayout_3.addWidget(self.txt_editora)
 
@@ -366,6 +371,7 @@ class Ui_MainWindow(object):
 
         self.txt_isbn = QLineEdit(self.widget_Visualizar_DadosLivro)
         self.txt_isbn.setObjectName(u"txt_isbn")
+        self.txt_isbn.setReadOnly(True)
 
         self.horizontalLayout_5.addWidget(self.txt_isbn)
 
@@ -381,6 +387,7 @@ class Ui_MainWindow(object):
 
         self.txt_anoPublicacao = QLineEdit(self.widget_Visualizar_DadosLivro)
         self.txt_anoPublicacao.setObjectName(u"txt_anoPublicacao")
+        self.txt_anoPublicacao.setReadOnly(True)
 
         self.horizontalLayout_2.addWidget(self.txt_anoPublicacao)
 
@@ -400,6 +407,7 @@ class Ui_MainWindow(object):
 
         self.txt_numExemplares_2 = QLineEdit(self.widget_Visualizar_DadosLivro)
         self.txt_numExemplares_2.setObjectName(u"txt_numExemplares_2")
+        self.txt_numExemplares_2.setReadOnly(True)
 
         self.horizontalLayout_17.addWidget(self.txt_numExemplares_2)
 
@@ -421,15 +429,9 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.btn_editar = QPushButton(self.pag_editar_livro)
-        self.btn_editar.setObjectName(u"btn_editar")
-        self.btn_editar.setMinimumSize(QSize(300, 0))
-        self.btn_editar.setCursor(QCursor(Qt.PointingHandCursor))
-
-        self.verticalLayout_7.addWidget(self.btn_editar)
-
         self.btn_deletar = QPushButton(self.pag_editar_livro)
         self.btn_deletar.setObjectName(u"btn_deletar")
+        self.btn_deletar.setMinimumSize(QSize(300, 0))
         self.btn_deletar.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.verticalLayout_7.addWidget(self.btn_deletar)
@@ -478,6 +480,8 @@ class Ui_MainWindow(object):
 
         self.txt_id_cad = QLineEdit(self.widget_CadastroLivro)
         self.txt_id_cad.setObjectName(u"txt_id_cad")
+        self.txt_id_cad.setStyleSheet(u"border: none;\n"
+"background-color: rgb(246, 245, 244);")
 
         self.horizontalLayout_15.addWidget(self.txt_id_cad)
 
@@ -673,7 +677,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.qst_telas.setCurrentIndex(0)
+        self.qst_telas.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -704,10 +708,10 @@ class Ui_MainWindow(object):
         self.lbl_id.setText(QCoreApplication.translate("MainWindow", u"ID:", None))
         self.txt_id.setInputMask("")
         self.txt_id.setText("")
-        self.lbl_titulo.setText(QCoreApplication.translate("MainWindow", u"T\u00edtulo", None))
+        self.lbl_titulo.setText(QCoreApplication.translate("MainWindow", u"T\u00edtulo:", None))
         self.txt_titulo.setInputMask("")
         self.txt_titulo.setText("")
-        self.lbl_autora.setText(QCoreApplication.translate("MainWindow", u"Autor (a)", None))
+        self.lbl_autora.setText(QCoreApplication.translate("MainWindow", u"Autor (a):", None))
         self.txt_autora.setText("")
         self.lbl_editora.setText(QCoreApplication.translate("MainWindow", u"Editora:", None))
         self.txt_editora.setText("")
@@ -720,7 +724,6 @@ class Ui_MainWindow(object):
         self.txt_anoPublicacao.setText("")
         self.lbl_numExemplares.setText(QCoreApplication.translate("MainWindow", u"N\u00b0 de Exemplares:", None))
         self.txt_numExemplares_2.setText("")
-        self.btn_editar.setText(QCoreApplication.translate("MainWindow", u"Editar", None))
         self.btn_deletar.setText(QCoreApplication.translate("MainWindow", u"Deletar", None))
         self.btn_atualizar.setText(QCoreApplication.translate("MainWindow", u"Atualizar", None))
         self.btn_voltar.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
@@ -731,9 +734,9 @@ class Ui_MainWindow(object):
         self.txt_titulo_cad.setText("")
         self.lbl_autora_cad.setText(QCoreApplication.translate("MainWindow", u"Autor", None))
         self.txt_autora_cad.setText("")
-        self.lbl_editora_cad.setText(QCoreApplication.translate("MainWindow", u"Editora:", None))
+        self.lbl_editora_cad.setText(QCoreApplication.translate("MainWindow", u"Editora", None))
         self.txt_editora_cad.setText("")
-        self.lbl_isbn_cad.setText(QCoreApplication.translate("MainWindow", u"ISBN:", None))
+        self.lbl_isbn_cad.setText(QCoreApplication.translate("MainWindow", u"ISBN", None))
         self.txt_isbn_cad.setText("")
         self.lbl_anoPublicacao_cad.setText(QCoreApplication.translate("MainWindow", u"Ano de Publica\u00e7\u00e3o:", None))
         self.txt_anoPublicacao_cad_2.setText("")
