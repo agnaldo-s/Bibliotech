@@ -1,5 +1,6 @@
 from projetoBiblioTech.infra.configs.connection import DBConnectionHandler
 from projetoBiblioTech.infra.entities.copias import Copias
+from projetoBiblioTech.infra.entities.livro import Livro
 
 
 class Copias_repository:
@@ -13,6 +14,11 @@ class Copias_repository:
         with DBConnectionHandler() as db:
             data = db.session.query(Copias).filter(Copias.id == id).first()
             return data
+
+    def joinCopias_Livros(self) -> list:
+        with DBConnectionHandler() as db:
+            join = db.session.query(Livro, Copias).join(Copias, Livro.id == Copias.id_livro).all()
+            return join
 
     def insert(self, copia: Copias):
         with DBConnectionHandler() as db:
@@ -30,8 +36,8 @@ class Copias_repository:
             db.session.query(Copias).filter(Copias.id == id).delete()
             db.session.commit()
 
-    def update(self, copias: Copias):
+    def update(self, idLivro, copias:Copias):
         with DBConnectionHandler() as db:
-            db.session.query(Copias).filter(Copias.id == copias.id).update({'qtd_copias':
-                copias.qtd_copias})
+            db.session.query(Copias).filter(Copias.id_livro == idLivro).update({'qtd_copias':
+                Copias.qtd_copias})
             db.session.commit()
