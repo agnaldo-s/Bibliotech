@@ -62,8 +62,16 @@ class Livro_repository:
             db.session.commit()
             return 'ok'
 
-    def update(self, livro: Livro):
+    def update(self, livro: Livro, qtdCopias):
         with DBConnectionHandler() as db:
-            db.session.query(Livro).filter(Livro.id == livro.id).update({'titulo': livro.titulo, 'autor': livro.autor, 'editora':
-                livro.editora, 'ano_publicacao': livro.ano_publicacao, 'isbn13': livro.isbn13, 'isbn10': livro.isbn10})
+            db2 = Copias_repository()
+            copia = Copias()
+            copia.qtd_copias = qtdCopias
+            db2.update(livro.id, copia)
+
+            db.session.query(Livro).filter(Livro.id == livro.id).update(
+                {'titulo': livro.titulo, 'autor': livro.autor, 'editora':
+                    livro.editora, 'ano_publicacao': livro.ano_publicacao, 'isbn13': livro.isbn13})
             db.session.commit()
+
+            return 'ok'
