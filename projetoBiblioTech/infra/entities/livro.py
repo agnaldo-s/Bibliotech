@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 
 class Livro(Base):
     __tablename__ = 'livros'
-    id = Column(Integer, autoincrement=True, primary_key=True, )
+    id = Column(Integer, autoincrement=True, primary_key=True)
     titulo = Column(String(20), nullable=False)
     autor = Column(String(20), nullable=False)
     editora = Column(String(20), nullable=False)
