@@ -25,8 +25,9 @@ class Livro_repository:
 
     def findByPalavraNoTitulo(self, palavra):
         with DBConnectionHandler() as db:
-            data = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).filter(
-                Livro.titulo.ilike(f"%{palavra}%")).all()
+            subquery = db.session.query(Livro.id).filter(Livro.titulo.ilike(f"%{palavra}%")).subquery()
+            data = db.session.query(Livro, Copias).join(Copias, Copias.id_livro == Livro.id).filter(
+                Livro.id.in_(subquery)).all()
             return data
 
     def select(self, id):
@@ -54,7 +55,8 @@ class Livro_repository:
 
     def delete(self, id):
         with DBConnectionHandler() as db:
-            db.session.query(Livro).filter(Livro.id == id).delete()
+            livro = db.session.query(Livro).get(id)
+            db.session.delete(livro)
             db.session.commit()
             return 'ok'
 

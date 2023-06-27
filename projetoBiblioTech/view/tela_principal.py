@@ -1,10 +1,8 @@
-from PySide6.QtWidgets import QMainWindow, QTableWidget, QMessageBox, QLineEdit, QTextEdit, QComboBox, QTableWidgetItem, \
-    QPushButton, QLabel
-
-from projetoBiblioTech.infra.entities.copias import Copias
+from PySide6.QtWidgets import QMainWindow, QTableWidget, QMessageBox, QLineEdit, QTextEdit, QComboBox, \
+    QTableWidgetItem, QHeaderView
+from PySide6.QtCore import QCoreApplication
+from PySide6.QtGui import QIntValidator
 from projetoBiblioTech.view.mainWindow import Ui_MainWindow
-from os import path
-from projetoBiblioTech.infra.configs.connection import DBConnectionHandler
 from projetoBiblioTech.infra.entities.livro import Livro
 from projetoBiblioTech.infra.repository.copias_repository import Copias_repository
 from projetoBiblioTech.infra.repository.livro_repository import Livro_repository
@@ -18,6 +16,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.horizontalHeader()
         self.tbl_livros.setSelectionBehavior(QTableWidget.SelectRows)
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.tbl_livros.verticalHeader().setVisible(False)
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
         self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
         self.txt_input_nome_livro.textChanged.connect(self.pesquisar_nome_livro)
@@ -25,6 +24,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_voltar.clicked.connect(self.tela_inicial)
         self.btn_voltat_cad.clicked.connect(self.tela_inicial)
         self.tbl_livros.cellDoubleClicked.connect(self.carregar_livro_selecionado)
+        self.txt_isbn_cad.textChanged.connect(self.mascara_isbn)
+        self.txt_anoPublicacao_cad_2.setValidator(QIntValidator())
+        self.txt_numExemplares_cad.setValidator(QIntValidator())
+        self.txt_isbn_cad.setValidator(QIntValidator())
 
         self.txt_id.setReadOnly(True)
         self.btn_deletar.clicked.connect(self.remover_livro)
@@ -41,8 +44,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     ##FUNÇÕES:
     def ajusteTabela(self):
+        self.tbl_livros.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.tbl_livros.resizeColumnsToContents()
-        self.tbl_livros.resizeRowsToContents()
 
         for row in range(self.tbl_livros.rowCount()):
             height = self.tbl_livros.rowHeight(row)
@@ -54,7 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         editora = self.txt_editora_cad.text()
         ano_publicacao = self.txt_anoPublicacao_cad_2.text()
 
-        isbn13 = self.txt_isbn_cad.text()
+        isbn13 = self.txt_isbn_cad.text().replace('-', '')
 
         qlines = [titulo, autora, editora, ano_publicacao, isbn13]
         for s in qlines:
@@ -104,7 +107,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if str(livro_existente) != 'None':
             self.atualizar_livro()
         else:
-            copia = self.lbn_numExemplares_cad.text()
+            copia = self.txt_numExemplares_cad.text()
             if self.validar_digitos(copia) == False or len(copia) > 3:
                 msg = QMessageBox()
                 msg.setWindowTitle('Erro')
@@ -136,7 +139,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def atualizar_livro(self):
         db = Livro_repository()
         livroValido = self.validarCamposPreenchidos()
-        qtdCopias = self.lbn_numExemplares_cad.text()
+        qtdCopias = self.txt_numExemplares_cad.text()
 
         if self.validar_digitos(qtdCopias) == False or len(qtdCopias) > 3:
             msg = QMessageBox()
@@ -205,6 +208,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def tela_cadastro_livro(self):
         self.qst_telas.setCurrentWidget(self.page_cadastroLivro)
+        self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Cadastro</span></p></body></html>", None))
+        self.limpar_campos()
 
     def tela_visualizar_livro(self):
         self.qst_telas.setCurrentWidget(self.pag_editar_livro)
@@ -247,40 +252,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         conn = Copias_repository()
         lista_join = conn.joinCopias_Livros()
         self.tbl_livros.setRowCount(len(lista_join))
+        self.preencher_tabela(lista_join)
 
-        linha = 0
-        for Object in lista_join:
-            valores = [Object.Livro.id, Object.Livro.titulo, Object.Livro.autor, Object.Livro.editora,
-                       Object.Livro.isbn13,
-                       Object.Livro.ano_publicacao, Object.Copias.qtd_copias]
-            for valor in valores:
-                item = QTableWidgetItem(str(valor))
-                self.tbl_livros.setItem(linha, valores.index(valor), item)
-                self.tbl_livros.item(linha, valores.index(valor))
-            linha += 1
-
-        self.ajusteTabela()
-
-    def carregar_livro_selecionado(self, row, collum):
+    def carregar_livro_selecionado(self, row):
         self.tela_visualizar_livro()
 
         self.txt_id.setText(self.tbl_livros.item(row, 0).text())
         self.txt_titulo.setText(self.tbl_livros.item(row, 1).text())
         self.txt_autora.setText(self.tbl_livros.item(row, 2).text())
         self.txt_editora.setText(self.tbl_livros.item(row, 3).text())
-        self.txt_isbn.setText(self.tbl_livros.item(row, 4).text())
-        self.txt_anoPublicacao.setText(self.tbl_livros.item(row, 5).text())
+        self.txt_isbn.setText(str(self.tbl_livros.item(row, 4).text()))
+        self.txt_anoPublicacao.setText(str(self.tbl_livros.item(row, 5).text()))
         self.txt_numExemplares_2.setText(str(self.tbl_livros.item(row, 6).text()))
 
         self.txt_id.setReadOnly
 
     def preencher_tabela(self, resultado):
-        self.tbl_livros.clearContents()
+        self.tbl_livros.setRowCount(0)
         self.tbl_livros.setRowCount(len(resultado))
         linha = 0
-        for livro in resultado:
-            valores = [livro.id, livro.titulo, livro.titulo, livro.editora, livro.isbn13,
-                       livro.ano_publicacao]
+        for Object in resultado:
+            valores = [Object.Livro.id, Object.Livro.titulo, Object.Livro.autor, Object.Livro.editora,
+                       Object.Livro.isbn13,
+                       Object.Livro.ano_publicacao, Object.Copias.qtd_copias]
             for valor in valores:
                 item = QTableWidgetItem(str(valor))
                 self.tbl_livros.setItem(linha, valores.index(valor), item)
@@ -290,7 +284,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def carregar_livros_atualizar(self):
         self.tela_cadastro_livro()
-        self.lbl_cadastro.setText('ATUALIZAR')  ### << Ags, reveja aqui!
+        self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Atualizar</span></p></body></html>", None))
 
         self.txt_id_cad.setText(self.txt_id.text())
         self.txt_titulo_cad.setText(self.txt_titulo.text())
@@ -298,4 +292,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.txt_editora_cad.setText(self.txt_editora.text())
         self.txt_isbn_cad.setText(self.txt_isbn.text())
         self.txt_anoPublicacao_cad_2.setText(self.txt_anoPublicacao.text())
-        self.lbn_numExemplares_cad.setText(self.txt_numExemplares_2.text())
+        self.txt_numExemplares_cad.setText(self.txt_numExemplares_2.text())
+
+    def mascara_isbn(self):
+        teste = self.txt_isbn_cad.text()
+        if self.txt_isbn_cad.text() == '----':
+            self.txt_isbn_cad.setInputMask('')
+        elif len(self.txt_isbn_cad.text()) == 1:
+            self.txt_isbn_cad.setInputMask('000-00-000-0000-0')
