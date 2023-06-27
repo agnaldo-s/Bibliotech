@@ -28,7 +28,9 @@ class Ui_MainWindow(object):
         MainWindow.resize(794, 887)
         MainWindow.setStyleSheet(u"background-color: rgb(246, 245, 244);\n"
 "color: black;\n"
-"margin: 0px;")
+"margin: 0px;\n"
+"\n"
+"")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_11 = QVBoxLayout(self.centralwidget)
@@ -97,10 +99,60 @@ class Ui_MainWindow(object):
 
         self.scrollArea = QScrollArea(self.centralwidget)
         self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setStyleSheet(u"QScrollBar:vertical {\n"
+"    background-color: #F8F8F8;\n"
+"    width: 10px;\n"
+"    margin: 0px;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical {\n"
+"    background-color: #CCCCCC;\n"
+"    border-radius: 5px;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical:hover {\n"
+"    background-color: #AAAAAA;\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical,\n"
+"QScrollBar::sub-line:vertical {\n"
+"    height: 0px;\n"
+"}\n"
+"\n"
+"QScrollBar::add-page:vertical,\n"
+"QScrollBar::sub-page:vertical {\n"
+"    background-color: transparent;\n"
+"}\n"
+"\n"
+"QScrollBar:horizontal {\n"
+"    background-color: #F8F8F8;\n"
+"    height: 10px;\n"
+"    margin: 0px;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:horizontal {\n"
+"    background-color: #CCCCCC;\n"
+"    border-radius: 5px;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:horizontal:hover {\n"
+"    background-color: #AAAAAA;\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:horizontal,\n"
+"QScrollBar::sub-line:horizontal {\n"
+"    width: 0px;\n"
+"}\n"
+"\n"
+"QScrollBar::add-page:horizontal,\n"
+"QScrollBar::sub-page:horizontal {\n"
+""
+                        "    background-color: transparent;\n"
+"}")
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -4, 760, 669))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 764, 669))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.qst_telas = QStackedWidget(self.scrollAreaWidgetContents)
@@ -139,7 +191,9 @@ class Ui_MainWindow(object):
 "}\n"
 "QLabel{\n"
 "    border-radius: 10px;\n"
-"}")
+"}\n"
+"\n"
+"")
         self.pag_procurar_livro = QWidget()
         self.pag_procurar_livro.setObjectName(u"pag_procurar_livro")
         self.verticalLayout_3 = QVBoxLayout(self.pag_procurar_livro)
@@ -230,11 +284,11 @@ class Ui_MainWindow(object):
 "QTableView::item {\n"
 "    padding: 5px;\n"
 "    border-bottom: 1px solid #DDDDDD;\n"
-"    color: #333333;\n"
+"    color: #000000; \n"
 "}\n"
 "\n"
 "QTableView::item:selected {\n"
-"    background-color: #EDEDED;\n"
+"    background-color: #CCCCCC;\n"
 "    color: #FFFFFF;\n"
 "}\n"
 "\n"
@@ -245,9 +299,21 @@ class Ui_MainWindow(object):
 "    border: none;\n"
 "}\n"
 "\n"
-"QHeaderView::section:checked {\n"
-"    background-color: #EDEDED;\n"
-"    color: #333333;\n"
+"\n"
+"QTableView::item:selected:active {\n"
+"    background-color: #CCCCCC;\n"
+"    color: #FFFFFF;\n"
+"}\n"
+"\n"
+"\n"
+"QTableView::item:selected:!active {\n"
+"    background-color: #CCCCCC;\n"
+"    color: #FFFFFF;\n"
+"}\n"
+"\n"
+"QTableView::item:selected:focus {\n"
+"    background-color: #CCCCCC;\n"
+"    color: #FFFFFF;\n"
 "}")
 
         self.horizontalLayout_23.addWidget(self.tbl_livros)
@@ -565,6 +631,7 @@ class Ui_MainWindow(object):
 
         self.txt_anoPublicacao_cad_2 = QLineEdit(self.widget_CadastroLivro)
         self.txt_anoPublicacao_cad_2.setObjectName(u"txt_anoPublicacao_cad_2")
+        self.txt_anoPublicacao_cad_2.setMaxLength(4)
 
         self.horizontalLayout_14.addWidget(self.txt_anoPublicacao_cad_2)
 
@@ -577,15 +644,15 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_9.addItem(self.horizontalSpacer_4)
 
-        self.txt_numExemplares_cad = QLabel(self.widget_CadastroLivro)
+        self.lbl_numExemplares_cad = QLabel(self.widget_CadastroLivro)
+        self.lbl_numExemplares_cad.setObjectName(u"lbl_numExemplares_cad")
+
+        self.horizontalLayout_9.addWidget(self.lbl_numExemplares_cad)
+
+        self.txt_numExemplares_cad = QLineEdit(self.widget_CadastroLivro)
         self.txt_numExemplares_cad.setObjectName(u"txt_numExemplares_cad")
 
         self.horizontalLayout_9.addWidget(self.txt_numExemplares_cad)
-
-        self.lbn_numExemplares_cad = QLineEdit(self.widget_CadastroLivro)
-        self.lbn_numExemplares_cad.setObjectName(u"lbn_numExemplares_cad")
-
-        self.horizontalLayout_9.addWidget(self.lbn_numExemplares_cad)
 
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_9)
@@ -677,7 +744,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.qst_telas.setCurrentIndex(1)
+        self.qst_telas.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -716,8 +783,8 @@ class Ui_MainWindow(object):
         self.lbl_editora.setText(QCoreApplication.translate("MainWindow", u"Editora:", None))
         self.txt_editora.setText("")
         self.lbl_isbn.setText(QCoreApplication.translate("MainWindow", u"ISBN:", None))
-        self.txt_isbn.setInputMask(QCoreApplication.translate("MainWindow", u"0-000-00000-0", None))
-        self.txt_isbn.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.txt_isbn.setInputMask(QCoreApplication.translate("MainWindow", u"000-00-000-0000-0", None))
+        self.txt_isbn.setText(QCoreApplication.translate("MainWindow", u"----", None))
         self.txt_isbn.setPlaceholderText(QCoreApplication.translate("MainWindow", u"I", None))
         self.lbl_anoPublicacao.setText(QCoreApplication.translate("MainWindow", u"Ano de Publica\u00e7\u00e3o:", None))
         self.txt_anoPublicacao.setInputMask(QCoreApplication.translate("MainWindow", u"0000", None))
@@ -732,16 +799,23 @@ class Ui_MainWindow(object):
         self.txt_id_cad.setText("")
         self.lbl_titulo_cad.setText(QCoreApplication.translate("MainWindow", u"T\u00edtulo", None))
         self.txt_titulo_cad.setText("")
+        self.txt_titulo_cad.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Insira o T\u00edtulo", None))
         self.lbl_autora_cad.setText(QCoreApplication.translate("MainWindow", u"Autor", None))
         self.txt_autora_cad.setText("")
+        self.txt_autora_cad.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Insira o Autor", None))
         self.lbl_editora_cad.setText(QCoreApplication.translate("MainWindow", u"Editora", None))
         self.txt_editora_cad.setText("")
+        self.txt_editora_cad.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Insira a Editora", None))
         self.lbl_isbn_cad.setText(QCoreApplication.translate("MainWindow", u"ISBN", None))
+        self.txt_isbn_cad.setInputMask("")
         self.txt_isbn_cad.setText("")
+        self.txt_isbn_cad.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Insira o ISBN", None))
         self.lbl_anoPublicacao_cad.setText(QCoreApplication.translate("MainWindow", u"Ano de Publica\u00e7\u00e3o:", None))
         self.txt_anoPublicacao_cad_2.setText("")
-        self.txt_numExemplares_cad.setText(QCoreApplication.translate("MainWindow", u"N\u00b0 de Exemplares:", None))
-        self.lbn_numExemplares_cad.setText("")
+        self.txt_anoPublicacao_cad_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Informe o Ano de Publica\u00e7\u00e3o", None))
+        self.lbl_numExemplares_cad.setText(QCoreApplication.translate("MainWindow", u"N\u00b0 de Exemplares:", None))
+        self.txt_numExemplares_cad.setText("")
+        self.txt_numExemplares_cad.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Informe o n\u00famero de Exemplare", None))
         self.frame_imagemLivro.setText("")
         self.btn_addImagem_cad.setText(QCoreApplication.translate("MainWindow", u"Adicionar Imagem", None))
         self.btn_limpar_cad.setText(QCoreApplication.translate("MainWindow", u"Limpar", None))

@@ -16,7 +16,9 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(246, 245, 244);
 color: black;
-margin: 0px;</string>
+margin: 0px;
+
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -143,6 +145,57 @@ margin: 0px;</string>
     </item>
     <item>
      <widget class="QScrollArea" name="scrollArea">
+      <property name="styleSheet">
+       <string notr="true">QScrollBar:vertical {
+    background-color: #F8F8F8;
+    width: 10px;
+    margin: 0px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #CCCCCC;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: #AAAAAA;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+    background-color: transparent;
+}
+
+QScrollBar:horizontal {
+    background-color: #F8F8F8;
+    height: 10px;
+    margin: 0px;
+}
+
+QScrollBar::handle:horizontal {
+    background-color: #CCCCCC;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background-color: #AAAAAA;
+}
+
+QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal {
+    width: 0px;
+}
+
+QScrollBar::add-page:horizontal,
+QScrollBar::sub-page:horizontal {
+    background-color: transparent;
+}</string>
+      </property>
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
@@ -150,8 +203,8 @@ margin: 0px;</string>
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-4</y>
-         <width>760</width>
+         <y>0</y>
+         <width>764</width>
          <height>669</height>
         </rect>
        </property>
@@ -193,10 +246,12 @@ QLineEdit:focus {
 }
 QLabel{
     border-radius: 10px;
-}</string>
+}
+
+</string>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="pag_procurar_livro">
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -320,11 +375,11 @@ QPushButton:hover {
 QTableView::item {
     padding: 5px;
     border-bottom: 1px solid #DDDDDD;
-    color: #333333;
+    color: #000000; 
 }
 
 QTableView::item:selected {
-    background-color: #EDEDED;
+    background-color: #CCCCCC;
     color: #FFFFFF;
 }
 
@@ -335,9 +390,21 @@ QHeaderView::section {
     border: none;
 }
 
-QHeaderView::section:checked {
-    background-color: #EDEDED;
-    color: #333333;
+
+QTableView::item:selected:active {
+    background-color: #CCCCCC;
+    color: #FFFFFF;
+}
+
+
+QTableView::item:selected:!active {
+    background-color: #CCCCCC;
+    color: #FFFFFF;
+}
+
+QTableView::item:selected:focus {
+    background-color: #CCCCCC;
+    color: #FFFFFF;
 }</string>
                 </property>
                 <column>
@@ -572,10 +639,10 @@ background-color: rgb(246, 245, 244);</string>
                  <item>
                   <widget class="QLineEdit" name="txt_isbn">
                    <property name="inputMask">
-                    <string>0-000-00000-0</string>
+                    <string>000-00-000-0000-0</string>
                    </property>
                    <property name="text">
-                    <string>---</string>
+                    <string>----</string>
                    </property>
                    <property name="readOnly">
                     <bool>true</bool>
@@ -791,6 +858,9 @@ background-color: rgb(246, 245, 244);</string>
                    <property name="text">
                     <string/>
                    </property>
+                   <property name="placeholderText">
+                    <string>Insira o Título</string>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -808,6 +878,9 @@ background-color: rgb(246, 245, 244);</string>
                   <widget class="QLineEdit" name="txt_autora_cad">
                    <property name="text">
                     <string/>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Insira o Autor</string>
                    </property>
                   </widget>
                  </item>
@@ -827,6 +900,9 @@ background-color: rgb(246, 245, 244);</string>
                    <property name="text">
                     <string/>
                    </property>
+                   <property name="placeholderText">
+                    <string>Insira a Editora</string>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -842,8 +918,14 @@ background-color: rgb(246, 245, 244);</string>
                  </item>
                  <item>
                   <widget class="QLineEdit" name="txt_isbn_cad">
+                   <property name="inputMask">
+                    <string/>
+                   </property>
                    <property name="text">
                     <string/>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Insira o ISBN</string>
                    </property>
                   </widget>
                  </item>
@@ -876,6 +958,12 @@ background-color: rgb(246, 245, 244);</string>
                    <property name="text">
                     <string/>
                    </property>
+                   <property name="maxLength">
+                    <number>4</number>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Informe o Ano de Publicação</string>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -896,16 +984,19 @@ background-color: rgb(246, 245, 244);</string>
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QLabel" name="txt_numExemplares_cad">
+                  <widget class="QLabel" name="lbl_numExemplares_cad">
                    <property name="text">
                     <string>N° de Exemplares:</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lbn_numExemplares_cad">
+                  <widget class="QLineEdit" name="txt_numExemplares_cad">
                    <property name="text">
                     <string/>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Informe o número de Exemplare</string>
                    </property>
                   </widget>
                  </item>
