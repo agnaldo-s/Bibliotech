@@ -1,7 +1,9 @@
+import os
+
 from PySide6.QtWidgets import QMainWindow, QTableWidget, QMessageBox, QLineEdit, QTextEdit, QComboBox, \
-    QTableWidgetItem, QHeaderView
+    QTableWidgetItem, QHeaderView, QFileDialog
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtGui import QIntValidator
+from PySide6.QtGui import QIntValidator, QPixmap, QImage
 from projetoBiblioTech.view.mainWindow import Ui_MainWindow
 from projetoBiblioTech.infra.entities.livro import Livro
 from projetoBiblioTech.infra.repository.copias_repository import Copias_repository
@@ -36,6 +38,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.txt_id_cad.setReadOnly(True)
 
         self.btn_salvar_cad.clicked.connect(self.cadastrar_livro)
+        self.caminho_imagem = self.btn_addImagem_cad.clicked.connect(self.carregar_imagem)
+
 
         self.txt_id_cad.setReadOnly(True)
         self.txt_id.setReadOnly(True)
@@ -114,6 +118,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 msg.setText('Campo N° de Exemplares Inválido')
                 msg.exec()
             else:
+                caminho = self.salvar_imagemBd(self.caminho_imagem)
+                print(str(caminho))
+                livro.imagem = str(caminho)
+                print(livro.imagem)
                 retorno = db.insert(livro, copia)
 
                 if retorno == 'ok':
@@ -174,6 +182,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 widget.clear()
             elif isinstance(widget, QComboBox):
                 widget.setCurrentIndex(0)
+        self.frame_imagemLivro.clear()
         self.btn_limpar_cad.setVisible(True)
         self.btn_salvar_cad.setText('Salvar')
         self.btn_addImagem_cad.setVisible(True)
@@ -253,7 +262,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         lista_join = conn.joinCopias_Livros()
         self.tbl_livros.setRowCount(len(lista_join))
         self.preencher_tabela(lista_join)
-
     def carregar_livro_selecionado(self, row):
         self.tela_visualizar_livro()
 
@@ -266,6 +274,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.txt_numExemplares_2.setText(str(self.tbl_livros.item(row, 6).text()))
 
         self.txt_id.setReadOnly
+        db = Livro_repository()
+        idLivro = self.tbl_livros.item(row, 0).text()
+        livro_imagem = db.select_imagem(idLivro)
+        print('path: ', livro_imagem)
+
+        self.lbl_imagem_livro_editar. setPixmap(QPixmap(livro_imagem))
 
     def preencher_tabela(self, resultado):
         self.tbl_livros.setRowCount(0)
@@ -274,11 +288,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for Object in resultado:
             valores = [Object.Livro.id, Object.Livro.titulo, Object.Livro.autor, Object.Livro.editora,
                        Object.Livro.isbn13,
-                       Object.Livro.ano_publicacao, Object.Copias.qtd_copias]
+                       Object.Livro.ano_publicacao, Object.Livro.imagem, Object.Copias.qtd_copias]
             for valor in valores:
-                item = QTableWidgetItem(str(valor))
-                self.tbl_livros.setItem(linha, valores.index(valor), item)
-                self.tbl_livros.item(linha, valores.index(valor))
+                if valor is Object.Livro.imagem:
+                    continue
+                else:
+                    print(valor)
+                    item = QTableWidgetItem(str(valor))
+                    if valor is Object.Copias.qtd_copias:
+                        self.tbl_livros.setItem(linha, (valores.index(valor) - 1), item)
+                        self.tbl_livros.item(linha, valores.index(valor))
+                    else:
+                        self.tbl_livros.setItem(linha, valores.index(valor), item)
+                        self.tbl_livros.item(linha, valores.index(valor))
             linha += 1
         self.ajusteTabela()
 
@@ -294,9 +316,44 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.txt_anoPublicacao_cad_2.setText(self.txt_anoPublicacao.text())
         self.txt_numExemplares_cad.setText(self.txt_numExemplares_2.text())
 
+
     def mascara_isbn(self):
         teste = self.txt_isbn_cad.text()
         if self.txt_isbn_cad.text() == '----':
             self.txt_isbn_cad.setInputMask('')
         elif len(self.txt_isbn_cad.text()) == 1:
             self.txt_isbn_cad.setInputMask('000-00-000-0000-0')
+
+    def carregar_imagem(self):
+        file_dialog = QFileDialog()
+        file_dialog.setNameFilter("Imagens (*.png *.jpg *.jpeg)")
+        file_dialog.exec()
+
+        if file_dialog.result() == QFileDialog.Accepted:
+            file_path = file_dialog.selectedFiles()[0]
+            print(file_path)
+            pixmap = QPixmap(file_path)
+            self.frame_imagemLivro.setPixmap(pixmap)
+
+        self.caminho_imagem = file_path
+
+
+    def salvar_imagemBd(self, file_path):
+
+        # Gerar um nome único para o arquivo (opcional)
+
+        nome_arquivo_unico = self.txt_titulo_cad.text() + '_imagem'
+        print(nome_arquivo_unico)
+        # Definir o caminho completo do arquivo no diretório de imagens
+        # diretorio_imagens = 'projetoBiblioTech/view/Imagens_Livros'
+        novo_diretorio = 'D:/ADS/2023.01/Desenvolvimento Desktop/Bibliotech/projetoBiblioTech/view/Imagens_Livros/'
+        diretorio_completo = os.path.join(novo_diretorio, nome_arquivo_unico)
+
+        print(diretorio_completo)
+
+        # Salvar a imagem no diretório de imagens
+        # Exemplo usando o PySide6 para carregar a imagem a partir do nome do arquivo
+        imagem = QImage(file_path)
+        imagem.save(diretorio_completo)
+
+        return diretorio_completo

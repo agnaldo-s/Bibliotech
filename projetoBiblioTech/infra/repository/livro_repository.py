@@ -33,7 +33,17 @@ class Livro_repository:
     def select(self, id):
         with DBConnectionHandler() as db:
             data = db.session.query(Livro).filter(Livro.id == id).first()
+
             return data
+
+    def select_imagem(self, id):
+        with DBConnectionHandler() as db:
+            livro = db.session.query(Livro).filter(Livro.id == id).first()
+            if livro:
+                imagem = livro.imagem
+                return imagem
+            else:
+                return None
 
     def insert(self, livro: Livro, copias: int):
         with DBConnectionHandler() as db:
@@ -69,6 +79,6 @@ class Livro_repository:
 
             db.session.query(Livro).filter(Livro.id == livro.id).update(
                 {'titulo': livro.titulo, 'autor': livro.autor, 'editora':
-                    livro.editora, 'ano_publicacao': livro.ano_publicacao, 'isbn13': livro.isbn13})
+                    livro.editora, 'ano_publicacao': livro.ano_publicacao, 'isbn13': livro.isbn13, 'imagem': livro.imagem})
             db.session.commit()
         return 'ok'
