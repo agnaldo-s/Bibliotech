@@ -103,7 +103,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         db = Livro_repository()
         livro = self.validarCamposPreenchidos()
 
-        livro_existente = db(self.txt_id_cad.text())
+        livro_existente = db.select(self.txt_id_cad.text())
         if str(livro_existente) != 'None':
             self.atualizar_livro()
         else:
