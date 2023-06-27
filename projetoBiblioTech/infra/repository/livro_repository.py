@@ -19,7 +19,7 @@ class Livro_repository:
 
     def findByTitulo(self, titulo):
         with DBConnectionHandler() as db:
-            data = db.session.query(Livro, Copias).join(Copias, Copias.id_livro == Livro.id).filter(
+            data = db.session.query(Livro, Copias).join(Copias, Livro.id == Copias.id_livro).filter(
                 Livro.titulo.ilike(titulo)).all()
             return data
 
