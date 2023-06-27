@@ -279,7 +279,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         livro_imagem = db.select_imagem(idLivro)
         print('path: ', livro_imagem)
 
-        self.lbl_imagem_livro_editar. setPixmap(QPixmap(livro_imagem))
+        # pixmap = QPixmap(livro_imagem)
+        # self.lbl_imagem_livro_editar.setPixmap(QPixmap(livro_imagem))
 
     def preencher_tabela(self, resultado):
         self.tbl_livros.setRowCount(0)
@@ -336,10 +337,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.frame_imagemLivro.setPixmap(pixmap)
 
         self.caminho_imagem = file_path
-
+        print(file_path)
 
     def salvar_imagemBd(self, file_path):
-
         # Gerar um nome único para o arquivo (opcional)
 
         nome_arquivo_unico = self.txt_titulo_cad.text() + '_imagem'
