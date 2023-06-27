@@ -10,9 +10,9 @@ class Copias_repository:
             data = db.session.query(Copias).all()
             return data
 
-    def select(self, id):
+    def select(self, id_livro):
         with DBConnectionHandler() as db:
-            data = db.session.query(Copias).filter(Copias.id == id).first()
+            data = db.session.query(Copias).filter(Copias.id_livro == id_livro).first()
             return data
 
     def joinCopias_Livros(self) -> list:
@@ -25,7 +25,6 @@ class Copias_repository:
             try:
                 db.session.add(copia)
                 db.session.commit()
-                print('commitou')
                 return 'ok'
             except Exception as e:
                 db.session.rollback()
@@ -36,8 +35,8 @@ class Copias_repository:
             db.session.query(Copias).filter(Copias.id == id).delete()
             db.session.commit()
 
-    def update(self, idLivro, copias:Copias):
+    def update(self, copia:Copias):
         with DBConnectionHandler() as db:
-            db.session.query(Copias).filter(Copias.id_livro == idLivro).update({'qtd_copias':
-                Copias.qtd_copias})
+            db.session.query(Copias).filter(Copias.id == copia.id).update({'qtd_copias':
+               copia.qtd_copias})
             db.session.commit()
