@@ -13,12 +13,13 @@ class Livro_repository:
 
     def joinLivro_Copias(self):
         with DBConnectionHandler() as db:
-            join = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).all()
+            join = db.session.query(Livro).join(Copias, Copias.id_livro == Livro.id).all()
+            db.session.commit()
             return join
 
     def findByTitulo(self, titulo):
         with DBConnectionHandler() as db:
-            data = db.session.query(Livro).join(Copias, Livro.id == Copias.id_livro).filter(
+            data = db.session.query(Livro, Copias).join(Copias, Livro.id == Copias.id_livro).filter(
                 Livro.titulo.ilike(titulo)).all()
             return data
 
@@ -43,37 +44,29 @@ class Livro_repository:
                 db.session.commit()
                 last_id = db.session.query(Livro.id).order_by(Livro.id.desc()).limit(1).scalar()
                 copia.id_livro = last_id
-                print(copia.id_livro, copia.qtd_copias)
 
                 db2.insert(copia)
-
-                print("Último ID inserido:", last_id)
-                print('commitou')
                 return 'ok'
             except Exception as e:
                 db.session.rollback()
                 return e
 
-        print(last_id)
 
-    def delete(self, isbn):
+    def delete(self, id):
         with DBConnectionHandler() as db:
-            db.session.query(Livro).filter(Livro.isbn13 == id).delete()
+            db.session.query(Livro).filter(Livro.id == id).delete()
             db.session.commit()
             return 'ok'
 
     def update(self, livro: Livro, qtdCopias):
         with DBConnectionHandler() as db:
             db2 = Copias_repository()
-            copia = Copias()
+            copia = db2.select(livro.id)
             copia.qtd_copias = qtdCopias
-            db2.update(livro.id, copia)
-
+            db2.update(copia)
 
             db.session.query(Livro).filter(Livro.id == livro.id).update(
                 {'titulo': livro.titulo, 'autor': livro.autor, 'editora':
                     livro.editora, 'ano_publicacao': livro.ano_publicacao, 'isbn13': livro.isbn13})
-
             db.session.commit()
-
-            return 'ok'
+        return 'ok'

@@ -24,14 +24,11 @@ class DBConnectionHandler:
 
     def __create_tables(self):
         Base.metadata.create_all(bind=self.__engine)
-        print("Tabelas criadas com sucesso")
 
     def __enter__(self):
         session_make = sessionmaker(bind=self.__engine)
-        print('Gerando conexão')
         self.session = session_make()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        print('Fechando conexão')
         self.session.close()
