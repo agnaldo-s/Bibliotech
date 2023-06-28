@@ -282,7 +282,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         livro_imagem = db.select_imagem(idLivro)
 
         if str(livro_imagem) != '':
-            novoCaminho = str(self.caminho_imagem + livro_imagem)
+            novoCaminho = str(self.diretorioPadrao + livro_imagem)
             print(novoCaminho)
             pixmap = novoCaminho
             self.lbl_imagem_livro_editar.setPixmap(QPixmap(pixmap))
@@ -354,7 +354,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def salvar_imagemBd(self, file_path):
         caminho_original = file_path
 
-        # diretorio, nome_arquivo = os.path.split(file_path)
+        nome_arquivo, extensao = os.path.splitext(file_path)
+        print(extensao)
 
         # Obter o diretório do projeto
         diretorio_projeto = os.getcwd()
@@ -364,14 +365,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         os.makedirs(novo_diretorio, exist_ok=True)  # Cria a pasta caso não exista
 
-        nome_arquivo_unico = self.txt_titulo_cad.text() + '_imagem'
+        nome_arquivo_unico = self.txt_titulo_cad.text() + '_imagem' + extensao
+        print(nome_arquivo_unico)
 
-        # Definir o caminho completo do arquivo no diretório de destino
+        # # Definir o caminho completo do arquivo no diretório de destino
         diretorio_completo = os.path.join(novo_diretorio, nome_arquivo_unico)
 
         # Move a imagem para o diretório de destino
         shutil.move(caminho_original, diretorio_completo)
-        self.diretorioPadrao = diretorio_completo
+        self.diretorioProjeto = novo_diretorio
 
         return nome_arquivo_unico
 
