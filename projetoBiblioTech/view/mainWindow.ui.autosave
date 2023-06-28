@@ -251,7 +251,7 @@ QLabel{
 </string>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="pag_procurar_livro">
            <layout class="QVBoxLayout" name="verticalLayout_3">

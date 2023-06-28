@@ -318,7 +318,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow",
                                                              u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Atualizar</span></p></body></html>",
                                                              None))
-
         self.txt_id_cad.setText(self.txt_id.text())
         self.txt_titulo_cad.setText(self.txt_titulo.text())
         self.txt_autora_cad.setText(self.txt_autora.text())
