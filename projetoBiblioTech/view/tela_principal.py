@@ -157,9 +157,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.exec()
         else:
             livroValido.id = self.txt_id_cad.text()
-
-            imagem = self.salvar_imagemBd(self.caminho_imagem)
-            livroValido.imagem = imagem
+            if self.caminho_imagem != '':
+                imagem = self.salvar_imagemBd(self.caminho_imagem)
+                livroValido.imagem = imagem
 
             retorno = db.update(livroValido, qtdCopias)
 
@@ -276,7 +276,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.txt_id.setText(self.tbl_livros.item(row, 0).text())
         self.txt_titulo.setText(self.tbl_livros.item(row, 1).text())
-        self.txt_autora.setText(self.tbl_livros.item(row, 2).text())
+        self.txt_autora.setText(str(self.tbl_livros.item(row, 2).text()))
         self.txt_editora.setText(self.tbl_livros.item(row, 3).text())
         self.txt_isbn.setText(str(self.tbl_livros.item(row, 4).text()))
         self.txt_anoPublicacao.setText(str(self.tbl_livros.item(row, 5).text()))
@@ -287,12 +287,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         idLivro = self.tbl_livros.item(row, 0).text()
         livro_imagem = db.select_imagem(idLivro)
 
-        if str(livro_imagem) != '':
+        if str(livro_imagem) not in ('', 'None'):
             diretorio = self.definir_diretorio_imagem()
             novoCaminho = str(diretorio + "/" + livro_imagem)
             print(novoCaminho)
-            pixmap = novoCaminho
-            self.lbl_imagem_livro_editar.setPixmap(QPixmap(pixmap))
+            if os.path.exists(novoCaminho):
+                pixmap = novoCaminho
+                self.lbl_imagem_livro_editar.setPixmap(QPixmap(pixmap))
+            else:
+                self.lbl_imagem_livro_editar.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
+        else:
+            self.lbl_imagem_livro_editar.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
 
     def preencher_tabela(self, resultado):
         self.tbl_livros.setRowCount(0)
@@ -333,12 +338,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         idLivro = self.txt_id_cad.text()
         livro_imagem = db.select_imagem(idLivro)
 
-        if str(livro_imagem) != '':
+        if str(livro_imagem) not in ('', 'None'):
             diretorio = self.definir_diretorio_imagem()
             novoCaminho = str(diretorio + "/" + livro_imagem)
-            print(novoCaminho)
-            pixmap = novoCaminho
-            self.frame_imagemLivro.setPixmap(QPixmap(pixmap))
+            if os.path.exists(novoCaminho):
+                pixmap = novoCaminho
+                self.frame_imagemLivro.setPixmap(QPixmap(pixmap))
+            else:
+                self.frame_imagemLivro.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
+        else:
+            self.frame_imagemLivro.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
 
     def mascara_isbn(self):
         teste = self.txt_isbn_cad.text()
@@ -364,31 +373,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def salvar_imagemBd(self, file_path):
         caminho_original = file_path
-
         nome_arquivo, extensao = os.path.splitext(file_path)
         print(extensao)
-
         nome_arquivo_unico = self.txt_titulo_cad.text() + "_imagem" + extensao
         print(nome_arquivo_unico)
-
         # Definir o caminho completo do arquivo no diretório de destino
         novo_diretorio = self.definir_diretorio_imagem()
         diretorio_completo = os.path.join(novo_diretorio, nome_arquivo_unico)
         print(diretorio_completo)
-
         # Move a imagem para o diretório de destino
         shutil.move(caminho_original, diretorio_completo)
         self.diretorioProjeto = novo_diretorio
-
+        self.caminho_imagem = ''
         return nome_arquivo_unico
 
     def definir_diretorio_imagem(self):
-        # Obter o diretório do projeto
         diretorio_projeto = os.getcwd()
-
-        # Definir o caminho completo para a pasta "capaLivro" dentro do diretório do projeto
         novo_diretorio = os.path.join(diretorio_projeto, 'capaLivro')
-
         os.makedirs(novo_diretorio, exist_ok=True)
 
         return novo_diretorio
