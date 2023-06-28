@@ -8,7 +8,7 @@ class Livro_repository:
 
     def select_all(self):
         with DBConnectionHandler() as db:
-            data = db.session.query(Livro).all()
+            data = db.session.query(Livro).order_by(Livro.titulo)
             return data
 
     def joinLivro_Copias(self):
