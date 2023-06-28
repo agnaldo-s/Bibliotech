@@ -1,5 +1,4 @@
 import os
-
 from PySide6.QtWidgets import QMainWindow, QTableWidget, QMessageBox, QLineEdit, QTextEdit, QComboBox, \
     QTableWidgetItem, QHeaderView, QFileDialog
 from PySide6.QtCore import QCoreApplication
@@ -8,6 +7,7 @@ from projetoBiblioTech.view.mainWindow import Ui_MainWindow
 from projetoBiblioTech.infra.entities.livro import Livro
 from projetoBiblioTech.infra.repository.copias_repository import Copias_repository
 from projetoBiblioTech.infra.repository.livro_repository import Livro_repository
+import shutil
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -38,8 +38,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.txt_id_cad.setReadOnly(True)
 
         self.btn_salvar_cad.clicked.connect(self.cadastrar_livro)
-        self.caminho_imagem = self.btn_addImagem_cad.clicked.connect(self.carregar_imagem)
-
+        self.caminho_imagem = ''
+        self.btn_addImagem_cad.clicked.connect(self.carregar_imagem)
 
         self.txt_id_cad.setReadOnly(True)
         self.txt_id.setReadOnly(True)
@@ -118,7 +118,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 msg.setText('Campo N° de Exemplares Inválido')
                 msg.exec()
             else:
-                caminho = self.salvar_imagemBd(self.caminho_imagem)
+                teste = str(self.caminho_imagem)
+                caminho = self.salvar_imagemBd(self.caminho_imagem) if self.caminho_imagem != '' else self.caminho_imagem
                 print(str(caminho))
                 livro.imagem = str(caminho)
                 print(livro.imagem)
@@ -337,23 +338,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.frame_imagemLivro.setPixmap(pixmap)
 
         self.caminho_imagem = file_path
-        print(file_path)
 
     def salvar_imagemBd(self, file_path):
-        # Gerar um nome único para o arquivo (opcional)
+        caminho_original = file_path
+
+        # Remove o nome do arquivo do caminho para obter o diretório
+        diretorio, nome_arquivo = os.path.split(file_path)
+
+        # Define o caminho completo do diretório de destino
+        novo_diretorio = os.path.join(diretorio, 'capaLivro')
+        os.makedirs(novo_diretorio, exist_ok=True)  # Cria a pasta caso não exista
 
         nome_arquivo_unico = self.txt_titulo_cad.text() + '_imagem'
-        print(nome_arquivo_unico)
-        # Definir o caminho completo do arquivo no diretório de imagens
-        # diretorio_imagens = 'projetoBiblioTech/view/Imagens_Livros'
-        novo_diretorio = 'D:/ADS/2023.01/Desenvolvimento Desktop/Bibliotech/projetoBiblioTech/view/Imagens_Livros/'
+
+        # Define o caminho completo do arquivo no diretório de destino
         diretorio_completo = os.path.join(novo_diretorio, nome_arquivo_unico)
 
-        print(diretorio_completo)
-
-        # Salvar a imagem no diretório de imagens
-        # Exemplo usando o PySide6 para carregar a imagem a partir do nome do arquivo
-        imagem = QImage(file_path)
-        imagem.save(diretorio_completo)
+        # Move a imagem para o diretório de destino
+        shutil.move(caminho_original, diretorio_completo)
 
         return diretorio_completo
