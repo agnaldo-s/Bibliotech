@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from PySide6.QtWidgets import QMainWindow, QTableWidget, QMessageBox, QLineEdit, QTextEdit, QComboBox, \
     QTableWidgetItem, QHeaderView, QFileDialog
@@ -38,7 +39,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.txt_id_cad.setReadOnly(True)
 
         self.btn_salvar_cad.clicked.connect(self.cadastrar_livro)
-        self.caminho_imagem = self.btn_addImagem_cad.clicked.connect(self.carregar_imagem)
+        self.btn_addImagem_cad.clicked.connect(self.carregar_imagem)
+        self.caminho_imagem = ''
+        self.diretorioPadrao = ''
 
 
         self.txt_id_cad.setReadOnly(True)
@@ -118,10 +121,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 msg.setText('Campo N° de Exemplares Inválido')
                 msg.exec()
             else:
-                caminho = self.salvar_imagemBd(self.caminho_imagem)
-                print(str(caminho))
-                livro.imagem = str(caminho)
-                print(livro.imagem)
+
+                livro.imagem = self.salvar_imagemBd(self.caminho_imagem)
                 retorno = db.insert(livro, copia)
 
                 if retorno == 'ok':
@@ -156,6 +157,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.exec()
         else:
             livroValido.id = self.txt_id_cad.text()
+
+            livroValido.imagem = self.caminho_imagem
             retorno = db.update(livroValido, qtdCopias)
             if retorno == 'ok':
                 msg = QMessageBox()
@@ -277,10 +280,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         db = Livro_repository()
         idLivro = self.tbl_livros.item(row, 0).text()
         livro_imagem = db.select_imagem(idLivro)
-        print('path: ', livro_imagem)
 
-        # pixmap = QPixmap(livro_imagem)
-        # self.lbl_imagem_livro_editar.setPixmap(QPixmap(livro_imagem))
+        if str(livro_imagem) != '':
+            novoCaminho = str(self.caminho_imagem + livro_imagem)
+            print(novoCaminho)
+            pixmap = novoCaminho
+            self.lbl_imagem_livro_editar.setPixmap(QPixmap(pixmap))
 
     def preencher_tabela(self, resultado):
         self.tbl_livros.setRowCount(0)
@@ -291,10 +296,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                        Object.Livro.isbn13,
                        Object.Livro.ano_publicacao, Object.Livro.imagem, Object.Copias.qtd_copias]
             for valor in valores:
-                if valor is Object.Livro.imagem:
-                    continue
-                else:
-                    print(valor)
+                if valor is not Object.Livro.imagem:
                     item = QTableWidgetItem(str(valor))
                     if valor is Object.Copias.qtd_copias:
                         self.tbl_livros.setItem(linha, (valores.index(valor) - 1), item)
@@ -302,6 +304,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     else:
                         self.tbl_livros.setItem(linha, valores.index(valor), item)
                         self.tbl_livros.item(linha, valores.index(valor))
+                else:
+                    pass
             linha += 1
         self.ajusteTabela()
 
@@ -316,6 +320,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.txt_isbn_cad.setText(self.txt_isbn.text())
         self.txt_anoPublicacao_cad_2.setText(self.txt_anoPublicacao.text())
         self.txt_numExemplares_cad.setText(self.txt_numExemplares_2.text())
+
+        db = Livro_repository()
+        idLivro = self.txt_id_cad.text()
+        livro_imagem = db.select_imagem(idLivro)
+        if str(livro_imagem) != '':
+            pixmap = self.caminho_imagem + livro_imagem
+            self.frame_imagemLivro.setPixmap(QPixmap(pixmap))
 
 
     def mascara_isbn(self):
@@ -332,28 +343,54 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if file_dialog.result() == QFileDialog.Accepted:
             file_path = file_dialog.selectedFiles()[0]
-            print(file_path)
             pixmap = QPixmap(file_path)
             self.frame_imagemLivro.setPixmap(pixmap)
+        else:
+            file_path = ''
 
         self.caminho_imagem = file_path
-        print(file_path)
+        return self.caminho_imagem
 
     def salvar_imagemBd(self, file_path):
-        # Gerar um nome único para o arquivo (opcional)
+        caminho_original = file_path
+
+        # diretorio, nome_arquivo = os.path.split(file_path)
+
+        # Obter o diretório do projeto
+        diretorio_projeto = os.getcwd()
+
+        # Definir o caminho completo para a pasta "capaLivro" dentro do diretório do projeto
+        novo_diretorio = os.path.join(diretorio_projeto, 'capaLivro')
+
+        os.makedirs(novo_diretorio, exist_ok=True)  # Cria a pasta caso não exista
 
         nome_arquivo_unico = self.txt_titulo_cad.text() + '_imagem'
-        print(nome_arquivo_unico)
-        # Definir o caminho completo do arquivo no diretório de imagens
-        # diretorio_imagens = 'projetoBiblioTech/view/Imagens_Livros'
-        novo_diretorio = 'D:/ADS/2023.01/Desenvolvimento Desktop/Bibliotech/projetoBiblioTech/view/Imagens_Livros/'
+
+        # Definir o caminho completo do arquivo no diretório de destino
         diretorio_completo = os.path.join(novo_diretorio, nome_arquivo_unico)
 
-        print(diretorio_completo)
+        # Move a imagem para o diretório de destino
+        shutil.move(caminho_original, diretorio_completo)
+        self.diretorioPadrao = diretorio_completo
 
-        # Salvar a imagem no diretório de imagens
-        # Exemplo usando o PySide6 para carregar a imagem a partir do nome do arquivo
-        imagem = QImage(file_path)
-        imagem.save(diretorio_completo)
+        return nome_arquivo_unico
 
-        return diretorio_completo
+        # caminho_original = file_path
+        #
+        # # Remove o nome do arquivo do caminho para obter o diretório
+        # diretorio, nome_arquivo = os.path.split(file_path)
+        #
+        # # Define o caminho completo do diretório de destino
+        # novo_diretorio = os.path.join(diretorio, 'capaLivro')
+        #
+        # os.makedirs(novo_diretorio, exist_ok=True)  # Cria a pasta caso não exista
+        #
+        # nome_arquivo_unico = self.txt_titulo_cad.text() + '_imagem'
+        #
+        # # Define o caminho completo do arquivo no diretório de destino
+        # diretorio_completo = os.path.join(novo_diretorio, nome_arquivo_unico)
+        #
+        # # Move a imagem para o diretório de destino
+        # shutil.move(caminho_original, diretorio_completo)
+        # print(diretorio_completo)
+        # return diretorio_completo
