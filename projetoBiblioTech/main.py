@@ -1,11 +1,16 @@
 import sys
+
+from projetoBiblioTech.view.loginwindow import LoginWindow
 from view.tela_principal import MainWindow
 from PySide6.QtWidgets import QApplication
 
-app = QApplication(sys.argv)
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
 
-window = MainWindow()
-window.show()
-window.showMaximized()
+    login_window = LoginWindow()
+    if login_window.exec() == LoginWindow.Accepted:
+        # Se o login for bem-sucedido, abra a janela principal
+        main_window = MainWindow()
+        main_window.showMaximized()
 
-app.exec()
+    sys.exit(app.exec())
