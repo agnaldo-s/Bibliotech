@@ -43,7 +43,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.caminho_imagem = ''
         self.diretorioPadrao = ''
 
-
         self.txt_id_cad.setReadOnly(True)
         self.txt_id.setReadOnly(True)
 
@@ -122,7 +121,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 msg.exec()
             else:
 
-                livro.imagem = self.salvar_imagemBd(self.caminho_imagem)
+                imagem = self.salvar_imagemBd(self.caminho_imagem)
+                livro.imagem = imagem
                 retorno = db.insert(livro, copia)
 
                 if retorno == 'ok':
@@ -220,7 +220,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def tela_cadastro_livro(self):
         self.qst_telas.setCurrentWidget(self.page_cadastroLivro)
-        self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Cadastro</span></p></body></html>", None))
+        self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow",
+                                                             u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Cadastro</span></p></body></html>",
+                                                             None))
         self.limpar_campos()
 
     def tela_visualizar_livro(self):
@@ -265,6 +267,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         lista_join = conn.joinCopias_Livros()
         self.tbl_livros.setRowCount(len(lista_join))
         self.preencher_tabela(lista_join)
+
     def carregar_livro_selecionado(self, row):
         self.tela_visualizar_livro()
 
@@ -282,7 +285,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         livro_imagem = db.select_imagem(idLivro)
 
         if str(livro_imagem) != '':
-            novoCaminho = str(self.diretorioPadrao + livro_imagem)
+            diretorio = self.definir_diretorio_imagem()
+            novoCaminho = str(diretorio + "/" + livro_imagem)
             print(novoCaminho)
             pixmap = novoCaminho
             self.lbl_imagem_livro_editar.setPixmap(QPixmap(pixmap))
@@ -311,7 +315,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def carregar_livros_atualizar(self):
         self.tela_cadastro_livro()
-        self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Atualizar</span></p></body></html>", None))
+        self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow",
+                                                             u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Atualizar</span></p></body></html>",
+                                                             None))
 
         self.txt_id_cad.setText(self.txt_id.text())
         self.txt_titulo_cad.setText(self.txt_titulo.text())
@@ -324,10 +330,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         db = Livro_repository()
         idLivro = self.txt_id_cad.text()
         livro_imagem = db.select_imagem(idLivro)
-        if str(livro_imagem) != '':
-            pixmap = self.caminho_imagem + livro_imagem
-            self.frame_imagemLivro.setPixmap(QPixmap(pixmap))
 
+        if str(livro_imagem) != '':
+            diretorio = self.definir_diretorio_imagem()
+            novoCaminho = str(diretorio + "/" + livro_imagem)
+            print(novoCaminho)
+            pixmap = novoCaminho
+            self.frame_imagemLivro.setPixmap(QPixmap(pixmap))
 
     def mascara_isbn(self):
         teste = self.txt_isbn_cad.text()
@@ -357,19 +366,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         nome_arquivo, extensao = os.path.splitext(file_path)
         print(extensao)
 
-        # Obter o diretório do projeto
-        diretorio_projeto = os.getcwd()
-
-        # Definir o caminho completo para a pasta "capaLivro" dentro do diretório do projeto
-        novo_diretorio = os.path.join(diretorio_projeto, 'capaLivro')
-
-        os.makedirs(novo_diretorio, exist_ok=True)  # Cria a pasta caso não exista
-
-        nome_arquivo_unico = self.txt_titulo_cad.text() + '_imagem' + extensao
+        nome_arquivo_unico = self.txt_titulo_cad.text() + "_imagem" + extensao
         print(nome_arquivo_unico)
 
-        # # Definir o caminho completo do arquivo no diretório de destino
+        # Definir o caminho completo do arquivo no diretório de destino
+        novo_diretorio = self.definir_diretorio_imagem()
         diretorio_completo = os.path.join(novo_diretorio, nome_arquivo_unico)
+        print(diretorio_completo)
 
         # Move a imagem para o diretório de destino
         shutil.move(caminho_original, diretorio_completo)
@@ -377,22 +380,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         return nome_arquivo_unico
 
-        # caminho_original = file_path
-        #
-        # # Remove o nome do arquivo do caminho para obter o diretório
-        # diretorio, nome_arquivo = os.path.split(file_path)
-        #
-        # # Define o caminho completo do diretório de destino
-        # novo_diretorio = os.path.join(diretorio, 'capaLivro')
-        #
-        # os.makedirs(novo_diretorio, exist_ok=True)  # Cria a pasta caso não exista
-        #
-        # nome_arquivo_unico = self.txt_titulo_cad.text() + '_imagem'
-        #
-        # # Define o caminho completo do arquivo no diretório de destino
-        # diretorio_completo = os.path.join(novo_diretorio, nome_arquivo_unico)
-        #
-        # # Move a imagem para o diretório de destino
-        # shutil.move(caminho_original, diretorio_completo)
-        # print(diretorio_completo)
-        # return diretorio_completo
+    def definir_diretorio_imagem(self):
+        # Obter o diretório do projeto
+        diretorio_projeto = os.getcwd()
+
+        # Definir o caminho completo para a pasta "capaLivro" dentro do diretório do projeto
+        novo_diretorio = os.path.join(diretorio_projeto, 'capaLivro')
+
+        os.makedirs(novo_diretorio, exist_ok=True)
+
+        return novo_diretorio
