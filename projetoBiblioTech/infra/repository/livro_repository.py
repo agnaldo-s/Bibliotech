@@ -14,7 +14,6 @@ class Livro_repository:
     def joinLivro_Copias(self):
         with DBConnectionHandler() as db:
             join = db.session.query(Livro).join(Copias, Copias.id_livro == Livro.id).all()
-            db.session.commit()
             return join
 
     def findByTitulo(self, titulo):

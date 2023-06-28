@@ -12,7 +12,7 @@ class Copias_repository:
 
     def select(self, id_livro):
         with DBConnectionHandler() as db:
-            data = db.session.query(Copias).filter(Copias.id_livro == id_livro).first().all
+            data = db.session.query(Copias).filter(Copias.id_livro == id_livro).first()
             return data
 
     def joinCopias_Livros(self) -> list:
