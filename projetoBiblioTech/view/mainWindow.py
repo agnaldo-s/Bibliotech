@@ -823,3 +823,4 @@ class Ui_MainWindow(object):
         self.btn_voltat_cad.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
     # retranslateUi
 
+
