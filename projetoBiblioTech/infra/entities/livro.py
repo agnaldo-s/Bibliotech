@@ -10,4 +10,5 @@ class Livro(Base):
     editora = Column(String(20), nullable=False)
     ano_publicacao = Column(String(4), nullable=False)
     isbn13 = Column(String(13), nullable=True)
+    imagem = Column(String(200), nullable=True)
     copias = relationship("Copias", cascade="all, delete")

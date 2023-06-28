@@ -1,7 +1,10 @@
+import os
+import shutil
+
 from PySide6.QtWidgets import QMainWindow, QTableWidget, QMessageBox, QLineEdit, QTextEdit, QComboBox, \
-    QTableWidgetItem, QHeaderView
+    QTableWidgetItem, QHeaderView, QFileDialog
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtGui import QIntValidator
+from PySide6.QtGui import QIntValidator, QPixmap, QImage
 from projetoBiblioTech.view.mainWindow import Ui_MainWindow
 from projetoBiblioTech.infra.entities.livro import Livro
 from projetoBiblioTech.infra.repository.copias_repository import Copias_repository
@@ -37,6 +40,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.txt_id_cad.setReadOnly(True)
 
         self.btn_salvar_cad.clicked.connect(self.cadastrar_livro)
+        self.btn_addImagem_cad.clicked.connect(self.carregar_imagem)
+        self.caminho_imagem = ''
+        self.diretorioPadrao = ''
 
         self.txt_id_cad.setReadOnly(True)
         self.txt_id.setReadOnly(True)
@@ -77,6 +83,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.setText('Campo Ano Inválido')
             msg.exec()
 
+
         elif self.validar_digitos(isbn13) == True and len(isbn13) != 13:
             msg = QMessageBox()
             msg.setWindowTitle('Erro')
@@ -107,7 +114,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         livro_existente = db.select(self.txt_id_cad.text())
         if str(livro_existente) != 'None':
             self.atualizar_livro()
-        else:
+        elif livro is not None:
             copia = self.txt_numExemplares_cad.text()
             if self.validar_digitos(copia) == False or len(copia) > 3:
                 msg = QMessageBox()
@@ -115,6 +122,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 msg.setText('Campo N° de Exemplares Inválido')
                 msg.exec()
             else:
+                if self.caminho_imagem != '':
+                    imagem = self.salvar_imagemBd(self.caminho_imagem)
+                    livro.imagem = imagem
                 retorno = db.insert(livro, copia)
 
                 if retorno == 'ok':
@@ -149,7 +159,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.exec()
         else:
             livroValido.id = self.txt_id_cad.text()
+            if self.caminho_imagem != '':
+                imagem = self.salvar_imagemBd(self.caminho_imagem)
+                livroValido.imagem = imagem
+
             retorno = db.update(livroValido, qtdCopias)
+
             if retorno == 'ok':
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Information)
@@ -175,6 +190,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 widget.clear()
             elif isinstance(widget, QComboBox):
                 widget.setCurrentIndex(0)
+        self.frame_imagemLivro.clear()
         self.btn_limpar_cad.setVisible(True)
         self.btn_salvar_cad.setText('Salvar')
         self.btn_addImagem_cad.setVisible(True)
@@ -211,7 +227,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qst_telas.setCurrentWidget(self.page_cadastroLivro)
         self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Cadastro</span></p></body></html>", None))
         self.btn_limpar_cad.setVisible(True)
-        self.limpar_campos()
+        self.frame_imagemLivro.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
+
 
     def tela_visualizar_livro(self):
         self.qst_telas.setCurrentWidget(self.pag_editar_livro)
@@ -261,13 +278,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.txt_id.setText(self.tbl_livros.item(row, 0).text())
         self.txt_titulo.setText(self.tbl_livros.item(row, 1).text())
-        self.txt_autora.setText(self.tbl_livros.item(row, 2).text())
+        self.txt_autora.setText(str(self.tbl_livros.item(row, 2).text()))
         self.txt_editora.setText(self.tbl_livros.item(row, 3).text())
         self.txt_isbn.setText(str(self.tbl_livros.item(row, 4).text()))
         self.txt_anoPublicacao.setText(str(self.tbl_livros.item(row, 5).text()))
         self.txt_numExemplares_2.setText(str(self.tbl_livros.item(row, 6).text()))
 
         self.txt_id.setReadOnly
+        db = Livro_repository()
+        idLivro = self.tbl_livros.item(row, 0).text()
+        livro_imagem = db.select_imagem(idLivro)
+
+        if str(livro_imagem) not in ('', 'None'):
+            diretorio = self.definir_diretorio_imagem()
+            novoCaminho = str(diretorio + "/" + livro_imagem)
+            if os.path.exists(novoCaminho):
+                pixmap = novoCaminho
+                self.lbl_imagem_livro_editar.setPixmap(QPixmap(pixmap))
+            else:
+                self.lbl_imagem_livro_editar.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
+        else:
+            self.lbl_imagem_livro_editar.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
 
     def preencher_tabela(self, resultado):
         self.tbl_livros.clearContents()
@@ -277,12 +308,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         linha = 0
         for obj in resultado:
             valores = [obj.Livro.id, obj.Livro.titulo, obj.Livro.autor, obj.Livro.editora, obj.Livro.isbn13,
-                       obj.Livro.ano_publicacao, obj.Copias.qtd_copias]
-            for coluna, valor in enumerate(valores):
-                item = QTableWidgetItem(str(valor))
-                self.tbl_livros.setItem(linha, coluna, item)
+                       obj.Livro.ano_publicacao, obj.Livro.imagem, obj.Copias.qtd_copias]
+            for valor in valores:
+                if valor is not obj.Livro.imagem:
+                    item = QTableWidgetItem(str(valor))
+                    if valor == obj.Copias.qtd_copias:
+                        self.tbl_livros.setItem(linha, (valores.index(valor) - 1), item)
+                    else:
+                        self.tbl_livros.setItem(linha, valores.index(valor), item)
             linha += 1
         self.ajusteTabela()
+        self.tbl_livros.sortItems(1)
         self.tbl_livros.setSortingEnabled(True)
 
     def carregar_livros_atualizar(self):
@@ -297,9 +333,60 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.txt_anoPublicacao_cad_2.setText(self.txt_anoPublicacao.text())
         self.txt_numExemplares_cad.setText(self.txt_numExemplares_2.text())
 
+        db = Livro_repository()
+        idLivro = self.txt_id_cad.text()
+        livro_imagem = db.select_imagem(idLivro)
+
+        if str(livro_imagem) not in ('', 'None'):
+            diretorio = self.definir_diretorio_imagem()
+            novoCaminho = str(diretorio + "/" + livro_imagem)
+            if os.path.exists(novoCaminho):
+                pixmap = novoCaminho
+                self.frame_imagemLivro.setPixmap(QPixmap(pixmap))
+            else:
+                self.frame_imagemLivro.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
+        else:
+            self.frame_imagemLivro.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
+
     def mascara_isbn(self):
         teste = self.txt_isbn_cad.text()
         if self.txt_isbn_cad.text() == '----':
             self.txt_isbn_cad.setInputMask('')
         elif len(self.txt_isbn_cad.text()) == 1:
             self.txt_isbn_cad.setInputMask('000-00-000-0000-0')
+
+    def carregar_imagem(self):
+        file_dialog = QFileDialog(self)
+        file_dialog.setNameFilter("Imagens (*.png *.jpg *.jpeg)")
+        file_dialog.exec()
+
+        if file_dialog.result() == QFileDialog.Accepted:
+            file_path = file_dialog.selectedFiles()[0]
+            pixmap = QPixmap(file_path)
+            self.frame_imagemLivro.setPixmap(pixmap)
+        else:
+            file_path = ''
+
+        self.caminho_imagem = file_path
+        return self.caminho_imagem
+
+    def salvar_imagemBd(self, file_path):
+        caminho_original = file_path
+        nome_arquivo, extensao = os.path.splitext(file_path)
+
+        nome_arquivo_unico = self.txt_titulo_cad.text() + "_imagem" + extensao
+
+        novo_diretorio = self.definir_diretorio_imagem()
+        diretorio_completo = os.path.join(novo_diretorio, nome_arquivo_unico)
+
+        shutil.move(caminho_original, diretorio_completo)
+        self.diretorioProjeto = novo_diretorio
+        self.caminho_imagem = ''
+        return nome_arquivo_unico
+
+    def definir_diretorio_imagem(self):
+        diretorio_projeto = os.getcwd()
+        novo_diretorio = os.path.join(diretorio_projeto, 'capaLivro')
+        os.makedirs(novo_diretorio, exist_ok=True)
+
+        return novo_diretorio
