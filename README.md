@@ -2,6 +2,13 @@
 
 O BiblioTec é um sistema desenvolvido como desafio para a disciplina de Desenvolvimento para Desktop, ministrada pelo professor Titione Falácio de Amorim. O objetivo do sistema é fornecer um ambiente para gerenciamento de livros, permitindo adicionar, editar, pesquisar e remover livros de uma biblioteca.
 
+###Programadores
+Agnaldo da Silva
+Ana Carolina Schmitz da Silva
+Caique Lacerda Martel
+Chrystian Souza Silveira Meyer
+
+
 ## Requisitos do Sistema
 
 Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
