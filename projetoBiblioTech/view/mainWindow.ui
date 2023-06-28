@@ -251,7 +251,7 @@ QLabel{
 </string>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="pag_procurar_livro">
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -994,6 +994,9 @@ background-color: rgb(246, 245, 244);</string>
                   <widget class="QLineEdit" name="txt_numExemplares_cad">
                    <property name="text">
                     <string/>
+                   </property>
+                   <property name="maxLength">
+                    <number>3</number>
                    </property>
                    <property name="placeholderText">
                     <string>Informe o número de Exemplare</string>

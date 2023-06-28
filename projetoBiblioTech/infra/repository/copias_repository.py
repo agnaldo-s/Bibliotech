@@ -17,7 +17,8 @@ class Copias_repository:
 
     def joinCopias_Livros(self) -> list:
         with DBConnectionHandler() as db:
-            join = db.session.query(Livro, Copias).join(Copias, Livro.id == Copias.id_livro).all()
+            join = db.session.query(Livro, Copias).join(Copias, Livro.id == Copias.id_livro).order_by(
+                Livro.titulo).all()
             return join
 
     def insert(self, copia: Copias):

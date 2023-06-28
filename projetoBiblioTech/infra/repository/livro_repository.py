@@ -2,19 +2,19 @@ from projetoBiblioTech.infra.configs.connection import DBConnectionHandler
 from projetoBiblioTech.infra.entities.copias import Copias
 from projetoBiblioTech.infra.entities.livro import Livro
 from projetoBiblioTech.infra.repository.copias_repository import Copias_repository
+from sqlalchemy import func
 
 
 class Livro_repository:
 
     def select_all(self):
         with DBConnectionHandler() as db:
-            data = db.session.query(Livro).all()
+            data = db.session.query(Livro).order_by(Livro.titulo)
             return data
 
     def joinLivro_Copias(self):
         with DBConnectionHandler() as db:
-            join = db.session.query(Livro).join(Copias, Copias.id_livro == Livro.id).all()
-            db.session.commit()
+            join = db.session.query(Livro, Copias).join(Copias).order_by(func.lower(Livro.titulo)).all()
             return join
 
     def findByTitulo(self, titulo):
@@ -25,9 +25,8 @@ class Livro_repository:
 
     def findByPalavraNoTitulo(self, palavra):
         with DBConnectionHandler() as db:
-            subquery = db.session.query(Livro.id).filter(Livro.titulo.ilike(f"%{palavra}%")).subquery()
             data = db.session.query(Livro, Copias).join(Copias, Copias.id_livro == Livro.id).filter(
-                Livro.id.in_(subquery)).all()
+                Livro.titulo.ilike(f"%{palavra}%")).order_by(func.lower(Livro.titulo)).all()
             return data
 
     def select(self, id):

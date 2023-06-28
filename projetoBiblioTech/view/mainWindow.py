@@ -20,7 +20,6 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
     QScrollArea, QSizePolicy, QSpacerItem, QStackedWidget,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
 from imagens import imagens
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -651,6 +650,7 @@ class Ui_MainWindow(object):
 
         self.txt_numExemplares_cad = QLineEdit(self.widget_CadastroLivro)
         self.txt_numExemplares_cad.setObjectName(u"txt_numExemplares_cad")
+        self.txt_numExemplares_cad.setMaxLength(3)
 
         self.horizontalLayout_9.addWidget(self.txt_numExemplares_cad)
 
@@ -744,7 +744,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.qst_telas.setCurrentIndex(0)
+        self.qst_telas.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -822,4 +822,5 @@ class Ui_MainWindow(object):
         self.btn_salvar_cad.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.btn_voltat_cad.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
     # retranslateUi
+
 
