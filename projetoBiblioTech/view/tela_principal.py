@@ -17,6 +17,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.setSelectionBehavior(QTableWidget.SelectRows)
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
         self.tbl_livros.verticalHeader().setVisible(False)
+        self.tbl_livros.setSortingEnabled(True)
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
         self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
         self.txt_input_nome_livro.textChanged.connect(self.pesquisar_nome_livro)
@@ -209,6 +210,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def tela_cadastro_livro(self):
         self.qst_telas.setCurrentWidget(self.page_cadastroLivro)
         self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Cadastro</span></p></body></html>", None))
+        self.btn_limpar_cad.setVisible(True)
         self.limpar_campos()
 
     def tela_visualizar_livro(self):
@@ -268,24 +270,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.txt_id.setReadOnly
 
     def preencher_tabela(self, resultado):
+        self.tbl_livros.clearContents()
         self.tbl_livros.setRowCount(0)
+        self.tbl_livros.setSortingEnabled(False)
         self.tbl_livros.setRowCount(len(resultado))
         linha = 0
-        for Object in resultado:
-            valores = [Object.Livro.id, Object.Livro.titulo, Object.Livro.autor, Object.Livro.editora,
-                       Object.Livro.isbn13,
-                       Object.Livro.ano_publicacao, Object.Copias.qtd_copias]
-            for valor in valores:
+        for obj in resultado:
+            valores = [obj.Livro.id, obj.Livro.titulo, obj.Livro.autor, obj.Livro.editora, obj.Livro.isbn13,
+                       obj.Livro.ano_publicacao, obj.Copias.qtd_copias]
+            for coluna, valor in enumerate(valores):
                 item = QTableWidgetItem(str(valor))
-                self.tbl_livros.setItem(linha, valores.index(valor), item)
-                self.tbl_livros.item(linha, valores.index(valor))
+                self.tbl_livros.setItem(linha, coluna, item)
             linha += 1
         self.ajusteTabela()
+        self.tbl_livros.setSortingEnabled(True)
 
     def carregar_livros_atualizar(self):
         self.tela_cadastro_livro()
         self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Atualizar</span></p></body></html>", None))
-
+        self.btn_limpar_cad.setVisible(False)
         self.txt_id_cad.setText(self.txt_id.text())
         self.txt_titulo_cad.setText(self.txt_titulo.text())
         self.txt_autora_cad.setText(self.txt_autora.text())
