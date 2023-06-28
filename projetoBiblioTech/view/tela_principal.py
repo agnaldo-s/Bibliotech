@@ -158,8 +158,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             livroValido.id = self.txt_id_cad.text()
 
-            livroValido.imagem = self.caminho_imagem
+            imagem = self.salvar_imagemBd(self.caminho_imagem)
+            livroValido.imagem = imagem
+
             retorno = db.update(livroValido, qtdCopias)
+
             if retorno == 'ok':
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Information)
