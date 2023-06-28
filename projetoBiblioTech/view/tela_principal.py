@@ -20,6 +20,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tbl_livros.setSelectionBehavior(QTableWidget.SelectRows)
         self.tbl_livros.setEditTriggers(QTableWidget.NoEditTriggers)
         self.tbl_livros.verticalHeader().setVisible(False)
+        self.tbl_livros.setSortingEnabled(True)
         self.btn_adicionar_livro.clicked.connect(self.tela_cadastro_livro)
         self.btn_pesquisar_livro.clicked.connect(self.pesquisar_livro)
         self.txt_input_nome_livro.textChanged.connect(self.pesquisar_nome_livro)
@@ -82,6 +83,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.setText('Campo Ano Inválido')
             msg.exec()
 
+
         elif self.validar_digitos(isbn13) == True and len(isbn13) != 13:
             msg = QMessageBox()
             msg.setWindowTitle('Erro')
@@ -112,7 +114,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         livro_existente = db.select(self.txt_id_cad.text())
         if str(livro_existente) != 'None':
             self.atualizar_livro()
-        else:
+        elif livro is not None:
             copia = self.txt_numExemplares_cad.text()
             if self.validar_digitos(copia) == False or len(copia) > 3:
                 msg = QMessageBox()
@@ -120,9 +122,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 msg.setText('Campo N° de Exemplares Inválido')
                 msg.exec()
             else:
-
-                imagem = self.salvar_imagemBd(self.caminho_imagem)
-                livro.imagem = imagem
+                if self.caminho_imagem != '':
+                    imagem = self.salvar_imagemBd(self.caminho_imagem)
+                    livro.imagem = imagem
                 retorno = db.insert(livro, copia)
 
                 if retorno == 'ok':
@@ -223,10 +225,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def tela_cadastro_livro(self):
         self.qst_telas.setCurrentWidget(self.page_cadastroLivro)
-        self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow",
-                                                             u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Cadastro</span></p></body></html>",
-                                                             None))
-        self.limpar_campos()
+        self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Cadastro</span></p></body></html>", None))
+        self.btn_limpar_cad.setVisible(True)
+        self.frame_imagemLivro.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
+
 
     def tela_visualizar_livro(self):
         self.qst_telas.setCurrentWidget(self.pag_editar_livro)
@@ -290,7 +292,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if str(livro_imagem) not in ('', 'None'):
             diretorio = self.definir_diretorio_imagem()
             novoCaminho = str(diretorio + "/" + livro_imagem)
-            print(novoCaminho)
             if os.path.exists(novoCaminho):
                 pixmap = novoCaminho
                 self.lbl_imagem_livro_editar.setPixmap(QPixmap(pixmap))
@@ -300,32 +301,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.lbl_imagem_livro_editar.setPixmap(QPixmap(u":/icons/sem_foto_icone.png"))
 
     def preencher_tabela(self, resultado):
+        self.tbl_livros.clearContents()
         self.tbl_livros.setRowCount(0)
+        self.tbl_livros.setSortingEnabled(False)
         self.tbl_livros.setRowCount(len(resultado))
         linha = 0
-        for Object in resultado:
-            valores = [Object.Livro.id, Object.Livro.titulo, Object.Livro.autor, Object.Livro.editora,
-                       Object.Livro.isbn13,
-                       Object.Livro.ano_publicacao, Object.Livro.imagem, Object.Copias.qtd_copias]
+        for obj in resultado:
+            valores = [obj.Livro.id, obj.Livro.titulo, obj.Livro.autor, obj.Livro.editora, obj.Livro.isbn13,
+                       obj.Livro.ano_publicacao, obj.Livro.imagem, obj.Copias.qtd_copias]
             for valor in valores:
-                if valor is not Object.Livro.imagem:
+                if valor is not obj.Livro.imagem:
                     item = QTableWidgetItem(str(valor))
-                    if valor is Object.Copias.qtd_copias:
+                    if valor == obj.Copias.qtd_copias:
                         self.tbl_livros.setItem(linha, (valores.index(valor) - 1), item)
-                        self.tbl_livros.item(linha, valores.index(valor))
                     else:
                         self.tbl_livros.setItem(linha, valores.index(valor), item)
-                        self.tbl_livros.item(linha, valores.index(valor))
-                else:
-                    pass
             linha += 1
         self.ajusteTabela()
+        self.tbl_livros.sortItems(1)
+        self.tbl_livros.setSortingEnabled(True)
 
     def carregar_livros_atualizar(self):
         self.tela_cadastro_livro()
-        self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow",
-                                                             u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Atualizar</span></p></body></html>",
-                                                             None))
+        self.lbl_cadastro.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">Atualizar</span></p></body></html>", None))
+        self.btn_limpar_cad.setVisible(False)
         self.txt_id_cad.setText(self.txt_id.text())
         self.txt_titulo_cad.setText(self.txt_titulo.text())
         self.txt_autora_cad.setText(self.txt_autora.text())
@@ -357,7 +356,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.txt_isbn_cad.setInputMask('000-00-000-0000-0')
 
     def carregar_imagem(self):
-        file_dialog = QFileDialog()
+        file_dialog = QFileDialog(self)
         file_dialog.setNameFilter("Imagens (*.png *.jpg *.jpeg)")
         file_dialog.exec()
 
@@ -374,14 +373,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def salvar_imagemBd(self, file_path):
         caminho_original = file_path
         nome_arquivo, extensao = os.path.splitext(file_path)
-        print(extensao)
+
         nome_arquivo_unico = self.txt_titulo_cad.text() + "_imagem" + extensao
-        print(nome_arquivo_unico)
-        # Definir o caminho completo do arquivo no diretório de destino
+
         novo_diretorio = self.definir_diretorio_imagem()
         diretorio_completo = os.path.join(novo_diretorio, nome_arquivo_unico)
-        print(diretorio_completo)
-        # Move a imagem para o diretório de destino
+
         shutil.move(caminho_original, diretorio_completo)
         self.diretorioProjeto = novo_diretorio
         self.caminho_imagem = ''
